@@ -1,4 +1,5 @@
 #include "NoteCalculator.hpp"
+#include <iostream>
 
 
 struct MyModule : Module {
@@ -11,8 +12,6 @@ struct MyModule : Module {
 		NUM_INPUTS
 	};
 	enum OutputIds {
-		SINE_OUTPUT,
-        PITCH_OUTPUT,
 		NUM_OUTPUTS
 	};
 	enum LightIds {
@@ -20,7 +19,6 @@ struct MyModule : Module {
 		NUM_LIGHTS
 	};
 
-	float phase = 0.0;
 	float blinkPhase = 0.0;
 
 	MyModule() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {}
@@ -34,25 +32,22 @@ struct MyModule : Module {
 
 
 void MyModule::step() {
-	// Implement a simple sine oscillator
-	float deltaTime = engineGetSampleTime();
-
+    float deltaTime = engineGetSampleTime();
+    
 	// Compute the frequency from the pitch parameter and input
 	float pitch = params[PITCH_PARAM].value;
 	pitch += inputs[PITCH_INPUT].value;
 	pitch = clamp(pitch, -4.0f, 4.0f);
 	// The default pitch is C4
 	float freq = 261.626f * powf(2.0f, pitch);
+    std::cout << "Freq: " + std::to_string(freq) << std::endl;
 
-	// Accumulate the phase
-	phase += freq * deltaTime;
-	if (phase >= 1.0f)
-		phase -= 1.0f;
-
-	// Compute the sine output
-	float sine = sinf(2.0f * M_PI * phase);
-	outputs[SINE_OUTPUT].value = 5.0f * sine;
-
+    // TODO: convert the frequency to the a note (lookup table).
+    // This class uses a display so check there for inspiration:
+    // https://github.com/sebastien-bouffier/Bidoo/blob/e82a658a88e3c7a27b6fbc97bf2b3def486a6e04/src/DTROY.cpp
+    
+    // TODO: display the note on a display.
+    
 	// Blink light at 1Hz
 	blinkPhase += deltaTime;
 	if (blinkPhase >= 1.0f)
@@ -73,8 +68,6 @@ struct MyModuleWidget : ModuleWidget {
 		addParam(ParamWidget::create<Davies1900hBlackKnob>(Vec(28, 87), module, MyModule::PITCH_PARAM, -3.0, 3.0, 0.0));
         
 		addInput(Port::create<PJ301MPort>(Vec(33, 186), Port::INPUT, module, MyModule::PITCH_INPUT));
-
-		addOutput(Port::create<PJ301MPort>(Vec(33, 275), Port::OUTPUT, module, MyModule::SINE_OUTPUT));
 
 		addChild(ModuleLightWidget::create<MediumLight<RedLight>>(Vec(41, 59), module, MyModule::BLINK_LIGHT));
 	}
