@@ -1,4 +1,4 @@
-#include "Template.hpp"
+#include "NoteCalculator.hpp"
 
 
 Plugin *plugin;

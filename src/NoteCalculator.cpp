@@ -1,4 +1,4 @@
-#include "Template.hpp"
+#include "NoteCalculator.hpp"
 
 
 struct MyModule : Module {
@@ -12,6 +12,7 @@ struct MyModule : Module {
 	};
 	enum OutputIds {
 		SINE_OUTPUT,
+        PITCH_OUTPUT,
 		NUM_OUTPUTS
 	};
 	enum LightIds {
