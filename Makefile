@@ -1,5 +1,5 @@
 # If RACK_DIR is not defined when calling the Makefile, default to two directories above
-RACK_DIR ?= /Users/matthewharris/Projects/personal/Rack-SDK
+RACK_DIR ?= ../../Rack-SDK/
 SLUG = mdh-modules
 VERSION = 0.6.0
 

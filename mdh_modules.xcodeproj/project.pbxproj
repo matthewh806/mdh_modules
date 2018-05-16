@@ -32,10 +32,6 @@
 		4FE1093A20AAE0ED0051073A /* NoteCalculator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NoteCalculator.hpp; sourceTree = "<group>"; };
 		4FE1093B20AAE0ED0051073A /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		4FE1093C20AAE0ED0051073A /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
-		4FE1093F20AAE0ED0051073A /* MyModule.cpp.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = MyModule.cpp.o; sourceTree = "<group>"; };
-		4FE1094020AAE0ED0051073A /* Template.cpp.d */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.dtrace; path = Template.cpp.d; sourceTree = "<group>"; };
-		4FE1094120AAE0ED0051073A /* MyModule.cpp.d */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.dtrace; path = MyModule.cpp.d; sourceTree = "<group>"; };
-		4FE1094220AAE0ED0051073A /* Template.cpp.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = Template.cpp.o; sourceTree = "<group>"; };
 		4FE1094320AAE0ED0051073A /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		4FE1094720AAE29D0051073A /* plugin.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = plugin.dylib; sourceTree = "<group>"; };
 		4FE1094920AAE2D20051073A /* libRack.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libRack.a; path = "../../../../Projects/personal/Rack-SDK/libRack.a"; sourceTree = "<group>"; };
@@ -55,7 +51,6 @@
 		4F5AF95F20AAC127005C059C = {
 			isa = PBXGroup;
 			children = (
-				4FE1093D20AAE0ED0051073A /* build */,
 				4FE1093C20AAE0ED0051073A /* LICENSE.txt */,
 				4FE1093B20AAE0ED0051073A /* Makefile */,
 				4FE1094320AAE0ED0051073A /* README.md */,
@@ -101,25 +96,6 @@
 			path = src;
 			sourceTree = "<group>";
 		};
-		4FE1093D20AAE0ED0051073A /* build */ = {
-			isa = PBXGroup;
-			children = (
-				4FE1093E20AAE0ED0051073A /* src */,
-			);
-			path = build;
-			sourceTree = "<group>";
-		};
-		4FE1093E20AAE0ED0051073A /* src */ = {
-			isa = PBXGroup;
-			children = (
-				4FE1093F20AAE0ED0051073A /* MyModule.cpp.o */,
-				4FE1094020AAE0ED0051073A /* Template.cpp.d */,
-				4FE1094120AAE0ED0051073A /* MyModule.cpp.d */,
-				4FE1094220AAE0ED0051073A /* Template.cpp.o */,
-			);
-			path = src;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXLegacyTarget section */
@@ -130,7 +106,7 @@
 			buildPhases = (
 			);
 			buildToolPath = /usr/bin/make;
-			buildWorkingDirectory = /Users/matthewharris/Documents/Rack/plugins/mdh_modules;
+			buildWorkingDirectory = /Users/matthew/Documents/Rack/plugins/mdh_modules;
 			dependencies = (
 			);
 			name = mdh_modules;
@@ -336,9 +312,9 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				HEADER_SEARCH_PATHS = (
-					"/Users/matthewharris/Projects/personal/Rack-SDK/dep/include",
-					"/Users/matthewharris/Projects/personal/Rack-SDK/include",
 					/usr/local/include,
+					"$(PROJECT_DIR)/../../Rack-SDK/include",
+					"$(PROJECT_DIR)/../../Rack-SDK/dep/include/",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					/usr/local/lib,
@@ -356,9 +332,9 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				HEADER_SEARCH_PATHS = (
-					"/Users/matthewharris/Projects/personal/Rack-SDK/dep/include",
-					"/Users/matthewharris/Projects/personal/Rack-SDK/include",
 					/usr/local/include,
+					"$(PROJECT_DIR)/../../Rack-SDK/include",
+					"$(PROJECT_DIR)/../../Rack-SDK/dep/include/",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					/usr/local/lib,
