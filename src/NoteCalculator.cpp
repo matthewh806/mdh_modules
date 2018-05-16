@@ -1,9 +1,23 @@
 #include "NoteCalculator.hpp"
 #include <iostream>
-#include <map>
+#include <array>
 
 const float c_4 = 261.626f;
-std::string notes[13] = {"A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A"};
+const std::array<char, 2> notes_sharp[12] = {
+    {'c', '\0'},
+    {'c', '#'},
+    {'d', '\0'},
+    {'d', '#'},
+    {'e', '\0'},
+    {'f', '\0'},
+    {'f', '#'},
+    {'g', '\0'},
+    {'g', '#'},
+    {'a', '\0'},
+    {'a', '#'},
+    {'b', '\0'},
+};
+
 
 // see note / freq table here: http://pages.mtu.edu/~suits/notefreqs.html
 
@@ -12,7 +26,7 @@ struct NoteCalculatorModule : Module {
 		NUM_PARAMS
 	};
 	enum InputIds {
-		VOLTAGE_INPUT,
+        PITCH_INPUT,
 		NUM_INPUTS
 	};
 	enum OutputIds {
@@ -22,8 +36,8 @@ struct NoteCalculatorModule : Module {
 		NUM_LIGHTS
 	};
     
-    double ratio = pow(2, 1.0/12.0);
-    float voltage = 0.0f;
+    double ratio = 1.0 / 12.0;
+    float pitch = 0.0f;
 
 	NoteCalculatorModule() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {}
     
@@ -37,18 +51,24 @@ struct NoteCalculatorModule : Module {
 
 
 void NoteCalculatorModule::step() {
-	 if(voltage == inputs[VOLTAGE_INPUT].value)
+	 if(pitch == inputs[PITCH_INPUT].value)
          return;
     
-    voltage = inputs[VOLTAGE_INPUT].value;
-    std::cout << "voltage: " + std::to_string(voltage) << std::endl;
-
-    // TODO: convert the voltage to the a note (lookup table).
+    pitch = inputs[PITCH_INPUT].value;
+    float o = std::floor(pitch);
+    float s = std::floor((pitch - o) * 12.f);
     
+    float out = o + s / 12.f;
+    
+    const char note = notes_sharp[(int)s][0];
+    
+    std::cout << "freq: " + std::to_string(out);
+    std::cout << ", note: ";
+    std::cout << note << std::endl;
 
-    // TODO: display the note on a display.
+    // TODO: display the note on a display.vco
     // This class uses a display so check there for inspiration:
-    // https://github.com/sebastien-bouffier/Bidoo/blob/e82a658a88e3c7a27b6fbc97bf2b3def486a6e04/src/DTROY.cpp
+    // https://github.com/luckyxxl/vcv_luckyxxl/blob/master/src/Quantize.cpp
 }
 
 
@@ -61,7 +81,7 @@ struct MyModuleWidget : ModuleWidget {
 		addChild(Widget::create<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 		addChild(Widget::create<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
         
-		addInput(Port::create<PJ301MPort>(Vec(33, 186), Port::INPUT, module, NoteCalculatorModule::VOLTAGE_INPUT));
+        addInput(Port::create<PJ301MPort>(Vec(33, 90), Port::INPUT, module, NoteCalculatorModule::PITCH_INPUT));
 	}
 };
 
