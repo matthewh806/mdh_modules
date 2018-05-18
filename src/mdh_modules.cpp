@@ -1,6 +1,5 @@
 #include "NoteCalculator.hpp"
 
-
 Plugin *plugin;
 
 

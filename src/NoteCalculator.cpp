@@ -2,7 +2,7 @@
 #include <iostream>
 #include <array>
 
-const float c_4 = 261.626f;
+//const float c_4 = 261.626f;
 static const char *notes_sharp[12] = {"c", "c#", "d", "e", "f", "f#", "g", "g#", "a", "a#", "b"};
 
 // see note / freq table here: http://pages.mtu.edu/~suits/notefreqs.html
@@ -25,16 +25,11 @@ struct NoteCalculatorModule : Module {
     double ratio = 1.0 / 12.0;
     float pitch = 0.0f;
     
-    const char *note_display;
+    const char *note_display = "0";
 
 	NoteCalculatorModule() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {}
     
 	void step() override;
-
-	// For more advanced Module features, read Rack's engine.hpp header file
-	// - toJson, fromJson: serialization of internal data
-	// - onSampleRateChange: event triggered by a change of sample rate
-	// - onReset, onRandomize, onCreate, onDelete: implements special behavior when user clicks these from the context menu
 };
 
 
@@ -46,35 +41,16 @@ void NoteCalculatorModule::step() {
     float o = std::floor(pitch);
     int s = std::floor((pitch - o) * 12.f);
     
-    float out = o + s / 12.f;
+//    float out = o + s / 12.f;
     
     note_display = notes_sharp[s];
-    
-//    std::cout << "freq: " + std::to_string(out);
-//    std::cout << ", note: ";
-//    std::cout << note_display;
-//    std::cout << std::endl;
 }
 
 struct NoteDisplay : TransparentWidget {
     NoteCalculatorModule *module;
     
-    
-    NoteDisplay() {
-    }
-    
     void draw(NVGcontext *vg) override {
         const char *note_display = module->note_display;
-        
-        NVGcolor backgroundColor = nvgRGB(0x38, 0x38, 0x38);
-        NVGcolor borderColor = nvgRGB(0x10, 0x10, 0x10);
-        nvgBeginPath(vg);
-        nvgRoundedRect(vg, 0.0, 0.0, box.size.x,box.size.y, 5.0);
-        nvgFillColor(vg, backgroundColor);
-        nvgFill(vg);
-        nvgStrokeWidth(vg, 1.0);
-        nvgStrokeColor(vg, borderColor);
-        nvgStroke(vg);
         
         nvgFontSize(vg, 24);
         nvgTextLetterSpacing(vg, 2.5);
@@ -87,6 +63,25 @@ struct NoteDisplay : TransparentWidget {
     }
 };
 
+struct BubbleScrew : FramebufferWidget {
+    TransformWidget *tw;
+    SVGWidget *sw;
+    
+    BubbleScrew() {
+        tw = new TransformWidget();
+        addChild(tw);
+        
+        sw = new SVGWidget();
+        sw->setSVG(SVG::load(assetPlugin(plugin, "res/bubble.svg")));
+        tw->addChild(sw);
+        
+        tw->scale(Vec(0.18f, 0.18f));
+    
+        tw->box.size = sw->box.size;
+        box.size = sw->box.size;
+    }
+};
+
 struct NoteCalculatorWidget : ModuleWidget {
 	NoteCalculatorWidget(NoteCalculatorModule *module) : ModuleWidget(module) {
 		setPanel(SVG::load(assetPlugin(plugin, "res/MyModule.svg")));
@@ -96,8 +91,11 @@ struct NoteCalculatorWidget : ModuleWidget {
 		addChild(Widget::create<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 		addChild(Widget::create<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
         
-        addInput(Port::create<PJ301MPort>(Vec(33, 90), Port::INPUT, module, NoteCalculatorModule::PITCH_INPUT));
+        BubbleScrew *speechBubble = Widget::create<BubbleScrew>(Vec(2.0f, 160.0f));
+        addChild(speechBubble);
         
+        addInput(Port::create<PJ301MPort>(Vec(33, 90), Port::INPUT, module, NoteCalculatorModule::PITCH_INPUT));
+
         {
             NoteDisplay *display = new NoteDisplay();
             display->module = module;
