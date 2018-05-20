@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3430AC2220B1B52D00B5D5D2 /* BpmDancer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3430AC2020B1B52D00B5D5D2 /* BpmDancer.cpp */; };
 		4FE1094420AAE12F0051073A /* mdh_modules.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4FE1093820AAE0ED0051073A /* mdh_modules.cpp */; };
 		4FE1094520AAE1310051073A /* NoteCalculator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4FE1093920AAE0ED0051073A /* NoteCalculator.cpp */; };
 		4FE1094620AAE1470051073A /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 4FE1093B20AAE0ED0051073A /* Makefile */; };
@@ -25,6 +26,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3430AC2020B1B52D00B5D5D2 /* BpmDancer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BpmDancer.cpp; sourceTree = "<group>"; };
+		3430AC2120B1B52D00B5D5D2 /* BpmDancer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BpmDancer.hpp; sourceTree = "<group>"; };
 		4F5ABCFD20AE429900BDFE17 /* bubble.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = bubble.svg; sourceTree = "<group>"; };
 		4F5AF96E20AAC306005C059C /* xcode */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = xcode; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FE1093620AAE0ED0051073A /* MyModule.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MyModule.svg; sourceTree = "<group>"; };
@@ -94,6 +97,8 @@
 				4FE1093820AAE0ED0051073A /* mdh_modules.cpp */,
 				4FE1093920AAE0ED0051073A /* NoteCalculator.cpp */,
 				4FE1093A20AAE0ED0051073A /* NoteCalculator.hpp */,
+				3430AC2020B1B52D00B5D5D2 /* BpmDancer.cpp */,
+				3430AC2120B1B52D00B5D5D2 /* BpmDancer.hpp */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -179,6 +184,7 @@
 			files = (
 				4FE1094620AAE1470051073A /* Makefile in Sources */,
 				4FE1094420AAE12F0051073A /* mdh_modules.cpp in Sources */,
+				3430AC2220B1B52D00B5D5D2 /* BpmDancer.cpp in Sources */,
 				4FE1094520AAE1310051073A /* NoteCalculator.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
