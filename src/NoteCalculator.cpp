@@ -1,4 +1,4 @@
-#include "NoteCalculator.hpp"
+#include "mdh_modules.hpp"
 #include <iostream>
 #include <array>
 
@@ -82,6 +82,25 @@ struct BubbleScrew : FramebufferWidget {
     }
 };
 
+struct FaceSVG : FramebufferWidget {
+    TransformWidget *tw;
+    SVGWidget *sw;
+    
+    FaceSVG() {
+        tw = new TransformWidget();
+        addChild(tw);
+        
+        sw = new SVGWidget();
+        sw->setSVG(SVG::load(assetPlugin(plugin, "res/face.svg")));
+        tw->addChild(sw);
+        
+        tw->scale(Vec(1.0f, 1.0f));
+        
+        tw->box.size = sw->box.size;
+        box.size = sw->box.size;
+    }
+};
+
 struct NoteCalculatorWidget : ModuleWidget {
 	NoteCalculatorWidget(NoteCalculatorModule *module) : ModuleWidget(module) {
 		setPanel(SVG::load(assetPlugin(plugin, "res/MyModule.svg")));
@@ -93,6 +112,9 @@ struct NoteCalculatorWidget : ModuleWidget {
         
         BubbleScrew *speechBubble = Widget::create<BubbleScrew>(Vec(2.0f, 160.0f));
         addChild(speechBubble);
+        
+        FaceSVG *faceSVG = Widget::create<FaceSVG>(Vec(2.0f, 240.0f));
+        addChild(faceSVG);
         
         addInput(Port::create<PJ301MPort>(Vec(33, 90), Port::INPUT, module, NoteCalculatorModule::PITCH_INPUT));
 

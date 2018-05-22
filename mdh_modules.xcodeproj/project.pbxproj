@@ -27,13 +27,13 @@
 
 /* Begin PBXFileReference section */
 		3430AC2020B1B52D00B5D5D2 /* BpmDancer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BpmDancer.cpp; sourceTree = "<group>"; };
-		3430AC2120B1B52D00B5D5D2 /* BpmDancer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BpmDancer.hpp; sourceTree = "<group>"; };
+		4F2A6BCE20AF2CE60011222D /* face.svg */ = {isa = PBXFileReference; lastKnownFileType = text; path = face.svg; sourceTree = "<group>"; };
+		4F3B400720B4436200CBAD5E /* mdh_modules.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = mdh_modules.hpp; sourceTree = "<group>"; };
 		4F5ABCFD20AE429900BDFE17 /* bubble.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = bubble.svg; sourceTree = "<group>"; };
 		4F5AF96E20AAC306005C059C /* xcode */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = xcode; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FE1093620AAE0ED0051073A /* MyModule.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MyModule.svg; sourceTree = "<group>"; };
 		4FE1093820AAE0ED0051073A /* mdh_modules.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mdh_modules.cpp; sourceTree = "<group>"; };
 		4FE1093920AAE0ED0051073A /* NoteCalculator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NoteCalculator.cpp; sourceTree = "<group>"; };
-		4FE1093A20AAE0ED0051073A /* NoteCalculator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NoteCalculator.hpp; sourceTree = "<group>"; };
 		4FE1093B20AAE0ED0051073A /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		4FE1093C20AAE0ED0051073A /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		4FE1094320AAE0ED0051073A /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -85,6 +85,7 @@
 		4FE1093520AAE0ED0051073A /* res */ = {
 			isa = PBXGroup;
 			children = (
+				4F2A6BCE20AF2CE60011222D /* face.svg */,
 				4F5ABCFD20AE429900BDFE17 /* bubble.svg */,
 				4FE1093620AAE0ED0051073A /* MyModule.svg */,
 			);
@@ -96,9 +97,8 @@
 			children = (
 				4FE1093820AAE0ED0051073A /* mdh_modules.cpp */,
 				4FE1093920AAE0ED0051073A /* NoteCalculator.cpp */,
-				4FE1093A20AAE0ED0051073A /* NoteCalculator.hpp */,
 				3430AC2020B1B52D00B5D5D2 /* BpmDancer.cpp */,
-				3430AC2120B1B52D00B5D5D2 /* BpmDancer.hpp */,
+				4F3B400720B4436200CBAD5E /* mdh_modules.hpp */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -113,7 +113,7 @@
 			buildPhases = (
 			);
 			buildToolPath = /usr/bin/make;
-			buildWorkingDirectory = /Users/matthew/Documents/Rack/plugins/mdh_modules;
+			buildWorkingDirectory = /Users/matthewharris/Documents/Rack/plugins/mdh_modules;
 			dependencies = (
 			);
 			name = mdh_modules;

@@ -1,4 +1,4 @@
-#include "BpmDancer.hpp"
+#include "mdh_modules.hpp"
 #include <dsp/digital.hpp>
 
 struct BpmDancerModule : Module {

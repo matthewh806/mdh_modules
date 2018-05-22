@@ -1,8 +1,4 @@
-#include "NoteCalculator.hpp"
-#include "BpmDancer.hpp"
-
-Plugin *plugin;
-
+#include "mdh_modules.hpp"
 
 void init(Plugin *p) {
 	plugin = p;
