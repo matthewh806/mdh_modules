@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3430AC2220B1B52D00B5D5D2 /* BpmDancer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3430AC2020B1B52D00B5D5D2 /* BpmDancer.cpp */; };
+		4FC0F2CF20B6C5470006A919 /* mdh_components.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4FC0F2CD20B6C5470006A919 /* mdh_components.cpp */; };
 		4FE1094420AAE12F0051073A /* mdh_modules.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4FE1093820AAE0ED0051073A /* mdh_modules.cpp */; };
 		4FE1094520AAE1310051073A /* NoteCalculator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4FE1093920AAE0ED0051073A /* NoteCalculator.cpp */; };
 		4FE1094620AAE1470051073A /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 4FE1093B20AAE0ED0051073A /* Makefile */; };
@@ -31,6 +32,8 @@
 		4F3B400720B4436200CBAD5E /* mdh_modules.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = mdh_modules.hpp; sourceTree = "<group>"; };
 		4F5ABCFD20AE429900BDFE17 /* bubble.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = bubble.svg; sourceTree = "<group>"; };
 		4F5AF96E20AAC306005C059C /* xcode */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = xcode; sourceTree = BUILT_PRODUCTS_DIR; };
+		4FC0F2CD20B6C5470006A919 /* mdh_components.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = mdh_components.cpp; sourceTree = "<group>"; };
+		4FC0F2CE20B6C5470006A919 /* mdh_components.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = mdh_components.hpp; sourceTree = "<group>"; };
 		4FE1093620AAE0ED0051073A /* MyModule.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MyModule.svg; sourceTree = "<group>"; };
 		4FE1093820AAE0ED0051073A /* mdh_modules.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mdh_modules.cpp; sourceTree = "<group>"; };
 		4FE1093920AAE0ED0051073A /* NoteCalculator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NoteCalculator.cpp; sourceTree = "<group>"; };
@@ -99,6 +102,8 @@
 				4FE1093920AAE0ED0051073A /* NoteCalculator.cpp */,
 				3430AC2020B1B52D00B5D5D2 /* BpmDancer.cpp */,
 				4F3B400720B4436200CBAD5E /* mdh_modules.hpp */,
+				4FC0F2CD20B6C5470006A919 /* mdh_components.cpp */,
+				4FC0F2CE20B6C5470006A919 /* mdh_components.hpp */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -184,6 +189,7 @@
 			files = (
 				4FE1094620AAE1470051073A /* Makefile in Sources */,
 				4FE1094420AAE12F0051073A /* mdh_modules.cpp in Sources */,
+				4FC0F2CF20B6C5470006A919 /* mdh_components.cpp in Sources */,
 				3430AC2220B1B52D00B5D5D2 /* BpmDancer.cpp in Sources */,
 				4FE1094520AAE1310051073A /* NoteCalculator.cpp in Sources */,
 			);

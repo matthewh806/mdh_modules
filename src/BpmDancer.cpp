@@ -1,4 +1,5 @@
 #include "mdh_modules.hpp"
+#include "mdh_components.hpp"
 #include <dsp/digital.hpp>
 
 struct BpmDancerModule : Module {
@@ -25,38 +26,6 @@ struct BpmDancerModule : Module {
     void step() override;
     
     int tick = 0;
-};
-
-struct SVGAnimation : FramebufferWidget {
-    // TODO: Move some of this stuff into a header declaration.
-    // TODO: Consider just hikacking SVGSwitch?
-    
-    SVGWidget *sw;
-    int frame = 0;
-    std::vector<std::shared_ptr<SVG>> frames;
-    
-    SVGAnimation() {
-        sw = new SVGWidget();
-        addChild(sw);
-    }
-    
-    void addFrame(std::shared_ptr<SVG> svg) {
-        frames.push_back(svg);
-        
-        // Set first frame.
-        if(!sw->svg) {
-            sw->setSVG(svg);
-            box.size = sw->box.size;
-        }
-    };
-    
-    void draw(NVGcontext *vg) override {
-        if(frames.size() == 0)
-            return;
-        
-        sw->setSVG(frames[frame % frames.size()]);
-        dirty = true;
-    };
 };
 
 void BpmDancerModule::step() {
