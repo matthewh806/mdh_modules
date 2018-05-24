@@ -1,4 +1,5 @@
 #include "mdh_modules.hpp"
+#include "mdh_components.hpp"
 #include <iostream>
 #include <array>
 
@@ -60,44 +61,6 @@ struct NoteDisplay : TransparentWidget {
         nvgFillColor(vg, textColor);
         nvgText(vg, textPos.x, textPos.y, note_display, NULL);
         nvgFillColor(vg, textColor);
-    }
-};
-
-struct BubbleScrew : FramebufferWidget {
-    TransformWidget *tw;
-    SVGWidget *sw;
-    
-    BubbleScrew() {
-        tw = new TransformWidget();
-        addChild(tw);
-        
-        sw = new SVGWidget();
-        sw->setSVG(SVG::load(assetPlugin(plugin, "res/bubble.svg")));
-        tw->addChild(sw);
-        
-        tw->scale(Vec(0.18f, 0.18f));
-    
-        tw->box.size = sw->box.size;
-        box.size = sw->box.size;
-    }
-};
-
-struct FaceSVG : FramebufferWidget {
-    TransformWidget *tw;
-    SVGWidget *sw;
-    
-    FaceSVG() {
-        tw = new TransformWidget();
-        addChild(tw);
-        
-        sw = new SVGWidget();
-        sw->setSVG(SVG::load(assetPlugin(plugin, "res/face.svg")));
-        tw->addChild(sw);
-        
-        tw->scale(Vec(1.0f, 1.0f));
-        
-        tw->box.size = sw->box.size;
-        box.size = sw->box.size;
     }
 };
 
