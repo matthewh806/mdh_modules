@@ -20,7 +20,8 @@ struct FaceSVG : FramebufferWidget {
 
 struct SVGAnimation : FramebufferWidget {
     SVGWidget *sw;
-    int frame = 0;
+    TransformWidget *tw;
+    int* frame = 0;
     std::vector<std::shared_ptr<SVG>> frames;
     
     SVGAnimation();

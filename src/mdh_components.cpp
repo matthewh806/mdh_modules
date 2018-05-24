@@ -24,7 +24,7 @@ FaceSVG::FaceSVG() {
     addChild(tw);
     
     sw = new SVGWidget();
-    sw->setSVG(SVG::load(assetPlugin(plugin, "res/face.svg")));
+//    sw->setSVG(SVG::load(assetPlugin(plugin, "res/face.svg")));
     tw->addChild(sw);
     
     tw->scale(Vec(1.0f, 1.0f));
@@ -55,13 +55,13 @@ void SVGAnimation::addFrame(std::shared_ptr<SVG> svg) {
     }
 }
 
-//void SVGAnimation::draw(NVGcontext *vg) {
-////    if(frames.size() == 0)
-////        return;
-////
-////    sw->setSVG(frames[frame % frames.size()]);
-////    dirty = true;
-//    
-//    FramebufferWidget::draw(vg);
-//}
+void SVGAnimation::draw(NVGcontext *vg) {
+    if(frames.size() == 0)
+        return;
+
+    sw->setSVG(frames[*frame % frames.size()]);
+    dirty = true;
+    
+    FramebufferWidget::draw(vg);
+}
 

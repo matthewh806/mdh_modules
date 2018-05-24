@@ -34,6 +34,7 @@
 		4F5AF96E20AAC306005C059C /* xcode */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = xcode; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FC0F2CD20B6C5470006A919 /* mdh_components.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = mdh_components.cpp; sourceTree = "<group>"; };
 		4FC0F2CE20B6C5470006A919 /* mdh_components.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = mdh_components.hpp; sourceTree = "<group>"; };
+		4FC0F2D020B6CBB90006A919 /* jigglypuff.svg */ = {isa = PBXFileReference; lastKnownFileType = text; path = jigglypuff.svg; sourceTree = "<group>"; };
 		4FE1093620AAE0ED0051073A /* MyModule.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MyModule.svg; sourceTree = "<group>"; };
 		4FE1093820AAE0ED0051073A /* mdh_modules.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mdh_modules.cpp; sourceTree = "<group>"; };
 		4FE1093920AAE0ED0051073A /* NoteCalculator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NoteCalculator.cpp; sourceTree = "<group>"; };
@@ -88,6 +89,7 @@
 		4FE1093520AAE0ED0051073A /* res */ = {
 			isa = PBXGroup;
 			children = (
+				4FC0F2D020B6CBB90006A919 /* jigglypuff.svg */,
 				4F2A6BCE20AF2CE60011222D /* face.svg */,
 				4F5ABCFD20AE429900BDFE17 /* bubble.svg */,
 				4FE1093620AAE0ED0051073A /* MyModule.svg */,

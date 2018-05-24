@@ -37,6 +37,17 @@ void BpmDancerModule::step() {
     }
 };
 
+struct BpmDancerAnimation : SVGAnimation {
+    BpmDancerAnimation() {
+        addFrame(SVG::load(assetPlugin(plugin, "res/jigglypuff.svg")));
+        addFrame(SVG::load(assetPlugin(plugin, "res/bubble.svg")));
+        sw->wrap();
+        
+        tw->box.size = sw->box.size;
+        box.size = sw->box.size;
+    }
+};
+
 struct BpmDancerWidget : ModuleWidget {
     BpmDancerWidget(BpmDancerModule *module) : ModuleWidget(module) {
         setPanel(SVG::load(assetPlugin(plugin, "res/MyModule.svg")));
@@ -47,11 +58,9 @@ struct BpmDancerWidget : ModuleWidget {
         addChild(Widget::create<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
         
         {
-            SVGAnimation *anim = new SVGAnimation();
-            anim->box.pos = Vec(14.0f, 160.0f);
-            anim->box.size = Vec(60.0f, 56.0f);
-            anim->frame=module->tick;
-            addChild(anim);
+            BpmDancerAnimation *dancer = Widget::create<BpmDancerAnimation>(Vec(2.0f, 160.0f));
+            dancer->frame=&(module->tick);
+            addChild(dancer);
         }
         
         addInput(Port::create<PJ301MPort>(Vec(33, 90), Port::INPUT, module, BpmDancerModule::CLOCK_INPUT));
