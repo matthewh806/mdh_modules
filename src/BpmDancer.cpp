@@ -67,4 +67,4 @@ struct BpmDancerWidget : ModuleWidget {
 };
 
 Model *modelBpmCalculator = Model::create<BpmDancerModule,
-    BpmDancerWidget>("MDH_MODULES", "Bpm Dancer", "Bpm Dancer", UTILITY_TAG);
+    BpmDancerWidget>(MDH_MODULES, "Bpm Dancer", "Bpm Dancer", UTILITY_TAG);

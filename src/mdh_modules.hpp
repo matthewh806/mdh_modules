@@ -2,6 +2,8 @@
 
 using namespace rack;
 
+const std::string MDH_MODULES = "MDH Modules";
+
 // Forward-declare the Plugin
 extern Plugin *plugin;
 
