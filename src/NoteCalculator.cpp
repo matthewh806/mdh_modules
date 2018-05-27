@@ -26,7 +26,7 @@ struct NoteCalculatorModule : Module {
     double ratio = 1.0 / 12.0;
     float pitch = 0.0f;
     
-    const char *note_display = "0";
+    const char *note_display = "";
 
 	NoteCalculatorModule() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {}
     
@@ -49,12 +49,21 @@ void NoteCalculatorModule::step() {
 
 struct NoteDisplay : TransparentWidget {
     NoteCalculatorModule *module;
+    std::shared_ptr<Font> font;
+    
+    NoteDisplay() {
+        font = Font::load(assetPlugin(plugin, "res/fonts/Segment14.ttf"));
+    };
     
     void draw(NVGcontext *vg) override {
         const char *note_display = module->note_display;
         
-        nvgFontSize(vg, 24);
-        nvgTextLetterSpacing(vg, 2.5);
+        if(!note_display)
+            note_display = "";
+        
+        nvgFontSize(vg, 22);
+        nvgFontFaceId(vg, font->handle);
+        nvgTextLetterSpacing(vg, 2.0);
         
         Vec textPos = Vec(4, 20);
         NVGcolor textColor = nvgRGB(0xaf, 0xd2, 0x2c);
@@ -66,28 +75,22 @@ struct NoteDisplay : TransparentWidget {
 
 struct NoteCalculatorWidget : ModuleWidget {
 	NoteCalculatorWidget(NoteCalculatorModule *module) : ModuleWidget(module) {
-		setPanel(SVG::load(assetPlugin(plugin, "res/MyModule.svg")));
+		setPanel(SVG::load(assetPlugin(plugin, "res/NoteCalculator.svg")));
         
 		addChild(Widget::create<ScrewSilver>(Vec(RACK_GRID_WIDTH, 0)));
 		addChild(Widget::create<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
 		addChild(Widget::create<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 		addChild(Widget::create<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
         
-        BubbleScrew *speechBubble = Widget::create<BubbleScrew>(Vec(2.0f, 160.0f));
-        addChild(speechBubble);
-        
-        FaceSVG *faceSVG = Widget::create<FaceSVG>(Vec(2.0f, 240.0f));
-        addChild(faceSVG);
-        
-        addInput(Port::create<PJ301MPort>(Vec(33, 90), Port::INPUT, module, NoteCalculatorModule::PITCH_INPUT));
-
         {
             NoteDisplay *display = new NoteDisplay();
             display->module = module;
-            display->box.pos = Vec(14.0f, 160.0f);
-            display->box.size = Vec(60.0f, 56.0f);
+            display->box.pos = Vec(30.0f, 120.0f);
+            display->box.size = Vec(40.0f, 40.0f);
             addChild(display);
         }
+        
+        addInput(Port::create<PJ301MPort>(Vec(33, 280), Port::INPUT, module, NoteCalculatorModule::PITCH_INPUT));
 	}
 };
 

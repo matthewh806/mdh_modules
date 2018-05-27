@@ -28,6 +28,8 @@
 
 /* Begin PBXFileReference section */
 		3430AC2020B1B52D00B5D5D2 /* BpmDancer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BpmDancer.cpp; sourceTree = "<group>"; };
+		34563B5A20BB5F2000622BAB /* Segment14.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Segment14.ttf; sourceTree = "<group>"; };
+		34563B5B20BB65B600622BAB /* NoteCalculator.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = NoteCalculator.svg; sourceTree = "<group>"; };
 		4F2A6BCE20AF2CE60011222D /* face.svg */ = {isa = PBXFileReference; lastKnownFileType = text; path = face.svg; sourceTree = "<group>"; };
 		4F3B400720B4436200CBAD5E /* mdh_modules.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = mdh_modules.hpp; sourceTree = "<group>"; };
 		4F5ABCFD20AE429900BDFE17 /* bubble.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = bubble.svg; sourceTree = "<group>"; };
@@ -56,6 +58,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		34563B5920BB5F2000622BAB /* fonts */ = {
+			isa = PBXGroup;
+			children = (
+				34563B5A20BB5F2000622BAB /* Segment14.ttf */,
+			);
+			path = fonts;
+			sourceTree = "<group>";
+		};
 		4F5AF95F20AAC127005C059C = {
 			isa = PBXGroup;
 			children = (
@@ -89,6 +99,8 @@
 		4FE1093520AAE0ED0051073A /* res */ = {
 			isa = PBXGroup;
 			children = (
+				34563B5B20BB65B600622BAB /* NoteCalculator.svg */,
+				34563B5920BB5F2000622BAB /* fonts */,
 				4FC0F2D020B6CBB90006A919 /* jigglypuff.svg */,
 				4F2A6BCE20AF2CE60011222D /* face.svg */,
 				4F5ABCFD20AE429900BDFE17 /* bubble.svg */,
@@ -120,7 +132,7 @@
 			buildPhases = (
 			);
 			buildToolPath = /usr/bin/make;
-			buildWorkingDirectory = /Users/matthewharris/Documents/Rack/plugins/mdh_modules;
+			buildWorkingDirectory = /Users/matthew/Documents/Rack/plugins/mdh_modules;
 			dependencies = (
 			);
 			name = mdh_modules;

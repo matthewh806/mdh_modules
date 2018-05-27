@@ -4,20 +4,6 @@
 
 using namespace rack;
 
-struct BubbleScrew : FramebufferWidget {
-    TransformWidget *tw;
-    SVGWidget *sw;
-    
-    BubbleScrew();
-};
-
-struct FaceSVG : FramebufferWidget {
-    TransformWidget *tw;
-    SVGWidget *sw;
-    
-    FaceSVG();
-};
-
 struct SVGAnimation : FramebufferWidget {
     SVGWidget *sw;
     TransformWidget *tw;
