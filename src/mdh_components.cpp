@@ -5,13 +5,13 @@ extern Plugin *plugin;
 
 // TODO: Remove unnecessary duplication in this class...
 
-SVGAnimation::SVGAnimation() {
+SVGAnimation::SVGAnimation(Vec scale) {
     tw = new TransformWidget();
     addChild(tw);
     
     sw = new SVGWidget();
     tw->addChild(sw);
-    tw->scale(Vec(0.2f, 0.2f));
+    tw->scale(scale);
     tw->box.size = sw->box.size;
     
     box.size = sw->box.size;

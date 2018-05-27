@@ -10,7 +10,7 @@ struct SVGAnimation : FramebufferWidget {
     int* frame = 0;
     std::vector<std::shared_ptr<SVG>> frames;
     
-    SVGAnimation();
+    SVGAnimation(Vec scale);
     
     void addFrame(std::shared_ptr<SVG> svg);
     
