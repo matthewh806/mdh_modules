@@ -39,6 +39,7 @@ void BpmDancerModule::step() {
 
 struct BpmDancerAnimation : SVGAnimation {
     BpmDancerAnimation() : SVGAnimation(Vec(0.33f, 0.33f)) {
+        // TODO: Randomize initial animation character...
         addFrame(SVG::load(assetPlugin(plugin, "res/jigglypuff.svg")));
         sw->wrap();
         
