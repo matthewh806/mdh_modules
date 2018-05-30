@@ -1,6 +1,8 @@
 #include "mdh_modules.hpp"
 #include "mdh_components.hpp"
 
+#include "dsp/digital.hpp"
+
 #include <iostream>
 #include <cstdlib>
 
@@ -11,6 +13,8 @@
 
 struct GameOfLifeSequencerModule : Module {
     enum ParamIds {
+        CLEAR_PARAM,
+        RANDOMIZE_PARAM,
         NUM_PARAMS
     };
     enum InputIds {
@@ -25,9 +29,9 @@ struct GameOfLifeSequencerModule : Module {
     };
     
     bool *cells = new bool[CELLS];
-    
+    SchmittTrigger clearTrigger, randomizeTrigger;
     GameOfLifeSequencerModule() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {
-        setInitialState();
+        setRandomState();
     }
     
     ~GameOfLifeSequencerModule() {
@@ -35,6 +39,17 @@ struct GameOfLifeSequencerModule : Module {
     }
     
     void step() override {
+        //reset
+        if(clearTrigger.process(params[CLEAR_PARAM].value)) {
+            clearCells();
+        }
+        
+        //randomize
+        if(randomizeTrigger.process(params[RANDOMIZE_PARAM].value)){
+            setRandomState();
+        }
+        
+        //TODO: separate fn step life
         bool *newCells = new bool[CELLS];
 
         for(int x=0; x < COLUMNS; x++) {
@@ -48,13 +63,20 @@ struct GameOfLifeSequencerModule : Module {
         cells = newCells;
     };
     
-    void setInitialState() {
+    void setRandomState() {
+        clearCells();
+        
         int i = 0;
         while(i < 256) {
             int index = rand() % 1024;
             setCellState(index, true);
             i++;
         }
+    };
+    
+    void clearCells() {
+        for(int i=0; i<CELLS; i++)
+            cells[i] = false;
     };
     
     int getNeighborCount(int x, int y) {
@@ -155,6 +177,9 @@ struct ConwaySeqDisplay : VirtualWidget {
 struct GameOfLifeSequencerWidget : ModuleWidget {
     GameOfLifeSequencerWidget(GameOfLifeSequencerModule *module): ModuleWidget(module) {
         setPanel(SVG::load(assetPlugin(plugin, "res/ConwaySeq.svg")));
+        
+        addParam(ParamWidget::create<LEDButton>(Vec(50, 320), module, GameOfLifeSequencerModule::CLEAR_PARAM, 0.0f, 1.0f, 0.0f));
+        addParam(ParamWidget::create<LEDButton>(Vec(100, 320), module, GameOfLifeSequencerModule::RANDOMIZE_PARAM, 0.0f, 1.0f, 0.0f));
         
         {
             ConwaySeqDisplay *display = new ConwaySeqDisplay();
