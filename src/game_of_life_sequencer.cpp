@@ -39,15 +39,13 @@ struct GameOfLifeSequencerModule : Module {
 
         for(int x=0; x < COLUMNS; x++) {
             for(int y=0; y<ROWS; y++) {
-                // TODO: Get cell index
-
-                // TODO: Get neighbours
-
-                // TODO: Get new state
+                int idx = getCellIndexFromXY(x, y);
+                int neighborsCount = getNeighborCount(x, y);
+                newCells[idx] = getNewState(cells[idx], neighborsCount);
             }
         }
-
-//        cells = newCells;
+    
+        cells = newCells;
     };
     
     void setInitialState() {
@@ -58,6 +56,31 @@ struct GameOfLifeSequencerModule : Module {
             i++;
         }
     };
+    
+    int getNeighborCount(int x, int y) {
+        int count = 0;
+        
+        int startX = (x - 1 >= 0) ? x-1 : 0;
+        int startY = (y - 1 >= 0) ? y-1 : 0;
+        int endX = (x + 1 < COLUMNS) ? x+1 : x;
+        int endY = (y + 1 < ROWS) ? y + 1: y;
+        
+        for (int i=startX; i<=endX; i++) {
+            for(int j=startY; j<=endY; j++) {
+                if(i == x && j == y) { continue; }
+                count += int(cells[getCellIndexFromXY(i, j)]);
+            }
+        }
+        
+        return count;
+    }
+    
+    int getNewState(bool alive, int n) {
+        if(alive && (n < 2 || n > 3)) { return false; }
+        if(!alive && n==3) { return true; }
+        
+        return alive;
+    }
     
     int getCellIndexFromXY(int x, int y) {
         return x + y * ROWS;
