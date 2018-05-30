@@ -133,7 +133,7 @@
 			buildPhases = (
 			);
 			buildToolPath = /usr/bin/make;
-			buildWorkingDirectory = /Users/matthewharris/Documents/Rack/plugins/mdh_modules;
+			buildWorkingDirectory = "$(PROJECT_DIR)";
 			dependencies = (
 			);
 			name = mdh_modules;
