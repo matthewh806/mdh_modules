@@ -2,6 +2,7 @@
 #include "mdh_components.hpp"
 
 #include <iostream>
+#include <cstdlib>
 
 #define ROWS 32
 #define COLUMNS 32
@@ -23,9 +24,64 @@ struct GameOfLifeSequencerModule : Module {
         NUM_LIGHTS
     };
     
-    GameOfLifeSequencerModule() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {}
+    bool *cells = new bool[CELLS];
     
-    void step() override;
+    GameOfLifeSequencerModule() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {
+        setInitialState();
+    }
+    
+    ~GameOfLifeSequencerModule() {
+        delete []cells;
+    }
+    
+    void step() override {
+        bool *newCells = new bool[CELLS];
+
+        for(int x=0; x < COLUMNS; x++) {
+            for(int y=0; y<ROWS; y++) {
+                // TODO: Get cell index
+
+                // TODO: Get neighbours
+
+                // TODO: Get new state
+            }
+        }
+
+//        cells = newCells;
+    };
+    
+    void setInitialState() {
+        int i = 0;
+        while(i < 256) {
+            int index = rand() % 1024;
+            setCellState(index, true);
+            i++;
+        }
+    };
+    
+    int getCellIndexFromXY(int x, int y) {
+        return x + y * ROWS;
+    };
+    
+    // TODO: Make this private
+    void setCellState(int index, bool on) {
+        cells[index] = on;
+    }
+    
+    void setCellState(int x, int y, bool on) {
+        // TODO: Invert this conditional and add a log if it is out of range
+        if(isInRange(x, y)) {
+            cells[getCellIndexFromXY(x, y)] = on;
+        }
+    };
+    
+    void setCellStateByDisplayPos(float x, float y, bool on) {
+        setCellState(int(x / HW), int(y / HW), on);
+    };
+    
+    bool isInRange(int x, int y) {
+        return x >= 0 && x <= COLUMNS && y >= 0 && y <= ROWS;
+    };
 };
 
 struct ConwaySeqDisplay : VirtualWidget {
@@ -60,21 +116,17 @@ struct ConwaySeqDisplay : VirtualWidget {
         // cells
         nvgFillColor(vg, nvgRGB(25, 150, 252)); // blue
         for(int i=0; i<CELLS; i++) {
-            if( i % 2 == 0) {
-                continue;
+            // TODO: Learn how to invert and do it...
+            if(module->cells[i]) {
+                int y = i / ROWS;
+                int x = i % COLUMNS;
+                
+                nvgBeginPath(vg);
+                nvgRect(vg, x * HW, y * HW, HW, HW);
+                nvgFill(vg);
             }
-            int y = i / ROWS;
-            int x = i % COLUMNS;
-
-            nvgBeginPath(vg);
-            nvgRect(vg, x * HW, y * HW, HW, HW);
-            nvgFill(vg);
         }
     };
-};
-
-void GameOfLifeSequencerModule::step() {
-    
 };
 
 struct GameOfLifeSequencerWidget : ModuleWidget {
