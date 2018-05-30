@@ -15,6 +15,8 @@ struct GameOfLifeSequencerModule : Module {
     enum ParamIds {
         CLEAR_PARAM,
         RANDOMIZE_PARAM,
+        STEP_LIFE_SWITCH_PARAM,
+        LIFE_SPEED_KNOB_PARAM,
         NUM_PARAMS
     };
     enum InputIds {
@@ -28,6 +30,7 @@ struct GameOfLifeSequencerModule : Module {
         NUM_LIGHTS
     };
     
+    int lifeCounter = 0;
     bool *cells = new bool[CELLS];
     SchmittTrigger clearTrigger, randomizeTrigger;
     GameOfLifeSequencerModule() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {
@@ -49,9 +52,18 @@ struct GameOfLifeSequencerModule : Module {
             setRandomState();
         }
         
-        //TODO: separate fn step life
+        if(params[STEP_LIFE_SWITCH_PARAM].value) {
+            if(lifeCounter % int(params[LIFE_SPEED_KNOB_PARAM].value) == 0) {
+                stepLife();
+            }
+            
+            lifeCounter++;
+        }
+    };
+    
+    void stepLife() {
         bool *newCells = new bool[CELLS];
-
+        
         for(int x=0; x < COLUMNS; x++) {
             for(int y=0; y<ROWS; y++) {
                 int idx = getCellIndexFromXY(x, y);
@@ -59,9 +71,9 @@ struct GameOfLifeSequencerModule : Module {
                 newCells[idx] = getNewState(cells[idx], neighborsCount);
             }
         }
-    
+        
         cells = newCells;
-    };
+    }
     
     void setRandomState() {
         clearCells();
@@ -180,6 +192,8 @@ struct GameOfLifeSequencerWidget : ModuleWidget {
         
         addParam(ParamWidget::create<LEDButton>(Vec(50, 320), module, GameOfLifeSequencerModule::CLEAR_PARAM, 0.0f, 1.0f, 0.0f));
         addParam(ParamWidget::create<LEDButton>(Vec(100, 320), module, GameOfLifeSequencerModule::RANDOMIZE_PARAM, 0.0f, 1.0f, 0.0f));
+        addParam(ParamWidget::create<CKSS>(Vec(150, 320), module, GameOfLifeSequencerModule::STEP_LIFE_SWITCH_PARAM, 0.0f, 1.0f, 0.0f));
+        addParam(ParamWidget::create<RoundBlackKnob>(Vec(200, 320), module, GameOfLifeSequencerModule::LIFE_SPEED_KNOB_PARAM, 1.0f, 1000.0f, 100.0f));
         
         {
             ConwaySeqDisplay *display = new ConwaySeqDisplay();
