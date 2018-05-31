@@ -20,7 +20,7 @@ struct GameOfLifeSequencerModule : Module {
         NUM_PARAMS
     };
     enum InputIds {
-        PITCH_INPUT,
+        EXTERNAL_CLOCK_INPUT,
         NUM_INPUTS
     };
     enum OutputIds {
@@ -30,9 +30,10 @@ struct GameOfLifeSequencerModule : Module {
         NUM_LIGHTS
     };
     
-    int lifeCounter = 0;
     bool *cells = new bool[CELLS];
     SchmittTrigger clearTrigger, randomizeTrigger;
+    SchmittTrigger clockTrigger;
+    
     GameOfLifeSequencerModule() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {
         setRandomState();
     }
@@ -52,12 +53,14 @@ struct GameOfLifeSequencerModule : Module {
             setRandomState();
         }
         
-        if(params[STEP_LIFE_SWITCH_PARAM].value) {
-            if(lifeCounter % int(params[LIFE_SPEED_KNOB_PARAM].value) == 0) {
+        /* TODO
+            Currently life is being stepped at the same rate as the external clock input.
+         It would be nice to have control over this to allow it to be adjusted to be faster / slower than the clock :)
+         */
+        if(inputs[EXTERNAL_CLOCK_INPUT].active && clockTrigger.process(inputs[EXTERNAL_CLOCK_INPUT].value)) {
+            if(params[STEP_LIFE_SWITCH_PARAM].value) {
                 stepLife();
             }
-            
-            lifeCounter++;
         }
     };
     
@@ -190,6 +193,7 @@ struct GameOfLifeSequencerWidget : ModuleWidget {
     GameOfLifeSequencerWidget(GameOfLifeSequencerModule *module): ModuleWidget(module) {
         setPanel(SVG::load(assetPlugin(plugin, "res/ConwaySeq.svg")));
         
+        addInput(Port::create<PJ301MPort>(Vec(50, 10), Port::INPUT, module, GameOfLifeSequencerModule::EXTERNAL_CLOCK_INPUT));
         addParam(ParamWidget::create<LEDButton>(Vec(50, 320), module, GameOfLifeSequencerModule::CLEAR_PARAM, 0.0f, 1.0f, 0.0f));
         addParam(ParamWidget::create<LEDButton>(Vec(100, 320), module, GameOfLifeSequencerModule::RANDOMIZE_PARAM, 0.0f, 1.0f, 0.0f));
         addParam(ParamWidget::create<CKSS>(Vec(150, 320), module, GameOfLifeSequencerModule::STEP_LIFE_SWITCH_PARAM, 0.0f, 1.0f, 0.0f));
