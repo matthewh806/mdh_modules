@@ -24,6 +24,7 @@ struct GameOfLifeSequencerModule : Module {
         NUM_INPUTS
     };
     enum OutputIds {
+        GATE_OUTPUT,
         NUM_OUTPUTS
     };
     enum LightIds {
@@ -43,6 +44,8 @@ struct GameOfLifeSequencerModule : Module {
     }
     
     void step() override {
+        bool gateIn = false;
+        
         //reset
         if(clearTrigger.process(params[CLEAR_PARAM].value)) {
             clearCells();
@@ -57,11 +60,18 @@ struct GameOfLifeSequencerModule : Module {
             Currently life is being stepped at the same rate as the external clock input.
          It would be nice to have control over this to allow it to be adjusted to be faster / slower than the clock :)
          */
-        if(inputs[EXTERNAL_CLOCK_INPUT].active && clockTrigger.process(inputs[EXTERNAL_CLOCK_INPUT].value)) {
-            if(params[STEP_LIFE_SWITCH_PARAM].value) {
-                stepLife();
+        // TODO: Reduce nesting
+        if(inputs[EXTERNAL_CLOCK_INPUT].active) {
+            if(clockTrigger.process(inputs[EXTERNAL_CLOCK_INPUT].value)) {
+                if(params[STEP_LIFE_SWITCH_PARAM].value) {
+                    stepLife();
+                }
             }
+            
+            gateIn = clockTrigger.isHigh();
         }
+        
+        outputs[GATE_OUTPUT].value = gateIn ? 10.0f : 0.0f;
     };
     
     void stepLife() {
@@ -234,10 +244,14 @@ struct GameOfLifeSequencerWidget : ModuleWidget {
         setPanel(SVG::load(assetPlugin(plugin, "res/ConwaySeq.svg")));
         
         addInput(Port::create<PJ301MPort>(Vec(50, 10), Port::INPUT, module, GameOfLifeSequencerModule::EXTERNAL_CLOCK_INPUT));
+        addOutput(Port::create<PJ301MPort>(Vec(306, 10), Port::OUTPUT, module, GameOfLifeSequencerModule::GATE_OUTPUT));
+        
         addParam(ParamWidget::create<LEDButton>(Vec(50, 320), module, GameOfLifeSequencerModule::CLEAR_PARAM, 0.0f, 1.0f, 0.0f));
         addParam(ParamWidget::create<LEDButton>(Vec(100, 320), module, GameOfLifeSequencerModule::RANDOMIZE_PARAM, 0.0f, 1.0f, 0.0f));
         addParam(ParamWidget::create<CKSS>(Vec(150, 320), module, GameOfLifeSequencerModule::STEP_LIFE_SWITCH_PARAM, 0.0f, 1.0f, 0.0f));
-        addParam(ParamWidget::create<RoundBlackKnob>(Vec(200, 320), module, GameOfLifeSequencerModule::LIFE_SPEED_KNOB_PARAM, 1.0f, 1000.0f, 100.0f));
+        
+        // Life speed is some fraction of the clock speed. Default is 1.0, min is 0.1 (10%), max is 5.0 (500%).
+        addParam(ParamWidget::create<RoundBlackKnob>(Vec(200, 320), module, GameOfLifeSequencerModule::LIFE_SPEED_KNOB_PARAM, 0.1f, 5.0f, 1.0f));
         
         {
             ConwaySeqDisplay *display = new ConwaySeqDisplay();
