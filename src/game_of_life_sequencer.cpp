@@ -32,6 +32,8 @@ struct GameOfLifeSequencerModule : Module {
     };
     
     bool *cells = new bool[CELLS];
+    int seqPos = 0;
+    
     SchmittTrigger clearTrigger, randomizeTrigger;
     SchmittTrigger clockTrigger;
     
@@ -66,6 +68,8 @@ struct GameOfLifeSequencerModule : Module {
                 if(params[STEP_LIFE_SWITCH_PARAM].value) {
                     stepLife();
                 }
+                
+                seqPos = (seqPos + 1) % COLUMNS;
             }
             
             gateIn = clockTrigger.isHigh();
@@ -236,6 +240,12 @@ struct ConwaySeqDisplay : VirtualWidget {
                 nvgFill(vg);
             }
         }
+        
+        //seq pos
+        nvgStrokeColor(vg, nvgRGB(255, 255, 255));
+        nvgBeginPath(vg);
+        nvgRect(vg, module->seqPos*HW, 0, HW, box.size.y);
+        nvgStroke(vg);
     };
 };
 
