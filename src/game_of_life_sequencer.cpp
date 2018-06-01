@@ -75,7 +75,8 @@ struct GameOfLifeSequencerModule : Module {
             gateIn = clockTrigger.isHigh();
         }
         
-        outputs[GATE_OUTPUT].value = gateIn ? 10.0f : 0.0f;
+        // TODO: don't just base this on active cells in a column
+        outputs[GATE_OUTPUT].value = (gateIn && columnActiveCellCount(seqPos % COLUMNS) > 0) ? 10.0f : 0.0f;
     };
     
     void stepLife() {
@@ -164,6 +165,16 @@ struct GameOfLifeSequencerModule : Module {
     bool isInRange(int x, int y) {
         return x >= 0 && x <= COLUMNS && y >= 0 && y <= ROWS;
     };
+    
+    int columnActiveCellCount(int columnIdx) {
+        int count = 0;
+        
+        for(int i=0; i < ROWS; i++) {
+            count += cells[getCellIndexFromXY(columnIdx, i)] ? 1 : 0;
+        }
+        
+        return count;
+    }
 };
 
 struct ConwaySeqDisplay : VirtualWidget {
