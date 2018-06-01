@@ -123,6 +123,10 @@ struct GameOfLifeSequencerModule : Module {
         return x + y * ROWS;
     };
     
+    bool getCellCurrentState(int x, int y) {
+        return cells[getCellIndexFromXY(x, y)];
+    };
+    
     // TODO: Make this private
     void setCellState(int index, bool on) {
         cells[index] = on;
@@ -133,6 +137,10 @@ struct GameOfLifeSequencerModule : Module {
         if(isInRange(x, y)) {
             cells[getCellIndexFromXY(x, y)] = on;
         }
+    };
+    
+    bool getCellCurrentStateByDisplayPos(float x, float y) {
+        return getCellCurrentState(int(x/HW), int(y/HW));
     };
     
     void setCellStateByDisplayPos(float x, float y, bool on) {
@@ -146,8 +154,40 @@ struct GameOfLifeSequencerModule : Module {
 
 struct ConwaySeqDisplay : VirtualWidget {
     GameOfLifeSequencerModule * module;
+    bool newState = false;
+    float dragX = 0;
+    float dragY = 0;
+    float initX = 0;
+    float initY = 0;
     
     ConwaySeqDisplay() {};
+    
+    void onMouseDown(EventMouseDown &e) override {
+        if (e.button != 0) {
+            return;
+        }
+        
+        e.consumed = true;
+        e.target = this;
+        
+        initX = e.pos.x;
+        initY = e.pos.y;
+        
+        newState = !(module->getCellCurrentStateByDisplayPos(initX, initY));
+        module->setCellStateByDisplayPos(e.pos.x, e.pos.y, newState);
+    }
+    
+    void onDragStart(EventDragStart &e) override {
+        dragX = gRackWidget->lastMousePos.x;
+        dragY = gRackWidget->lastMousePos.y;
+    }
+    
+    void onDragMove(EventDragMove &e) override {
+        float deltaX = gRackWidget->lastMousePos.x - dragX;
+        float deltaY = gRackWidget->lastMousePos.y - dragY;
+        
+        module->setCellStateByDisplayPos(initX + deltaX, initY + deltaY, newState);
+    }
     
     void draw(NVGcontext *vg) override {
         // bg
