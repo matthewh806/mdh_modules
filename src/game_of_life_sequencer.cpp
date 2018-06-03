@@ -14,6 +14,7 @@
 struct GameOfLifeSequencerModule : Module {
     enum ParamIds {
         CLEAR_PARAM,
+        SEQUENCE_LENGTH_PARAM,
         RANDOMIZE_PARAM,
         STEP_LIFE_SWITCH_PARAM,
         LIFE_SPEED_KNOB_PARAM,
@@ -64,12 +65,14 @@ struct GameOfLifeSequencerModule : Module {
          */
         // TODO: Reduce nesting
         if(inputs[EXTERNAL_CLOCK_INPUT].active) {
+            int seqLen = int(params[GameOfLifeSequencerModule::SEQUENCE_LENGTH_PARAM].value);
+
             if(clockTrigger.process(inputs[EXTERNAL_CLOCK_INPUT].value)) {
                 if(params[STEP_LIFE_SWITCH_PARAM].value) {
                     stepLife();
                 }
                 
-                seqPos = (seqPos + 1) % COLUMNS;
+                seqPos = (seqPos + 1) % seqLen;
             }
             
             gateIn = clockTrigger.isHigh();
@@ -257,6 +260,14 @@ struct ConwaySeqDisplay : VirtualWidget {
         nvgBeginPath(vg);
         nvgRect(vg, module->seqPos*HW, 0, HW, box.size.y);
         nvgStroke(vg);
+        
+        //seq len line
+        float seqLen = module->params[GameOfLifeSequencerModule::SEQUENCE_LENGTH_PARAM].value * HW;
+        nvgStrokeColor(vg, nvgRGB(144, 26, 252));
+        nvgBeginPath(vg);
+        nvgMoveTo(vg, seqLen, 0);
+        nvgLineTo(vg, seqLen, box.size.y);
+        nvgStroke(vg);
     };
 };
 
@@ -273,6 +284,8 @@ struct GameOfLifeSequencerWidget : ModuleWidget {
         
         // Life speed is some fraction of the clock speed. Default is 1.0, min is 0.1 (10%), max is 5.0 (500%).
         addParam(ParamWidget::create<RoundBlackKnob>(Vec(200, 320), module, GameOfLifeSequencerModule::LIFE_SPEED_KNOB_PARAM, 0.1f, 5.0f, 1.0f));
+        
+        addParam(ParamWidget::create<RoundBlackKnob>(Vec(250, 320), module, GameOfLifeSequencerModule::SEQUENCE_LENGTH_PARAM, 1.0, COLUMNS, COLUMNS));
         
         {
             ConwaySeqDisplay *display = new ConwaySeqDisplay();
