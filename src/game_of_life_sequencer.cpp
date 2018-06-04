@@ -46,6 +46,15 @@ struct GameOfLifeSequencerModule : Module {
         delete []cells;
     }
     
+    void onRandomize() override {
+        setRandomState();
+    }
+    
+    void onReset() override {
+        resetSeq();
+        clearCells();
+    }
+    
     void step() override {
         bool gateIn = false;
         
@@ -81,6 +90,10 @@ struct GameOfLifeSequencerModule : Module {
         // TODO: don't just base this on active cells in a column
         outputs[GATE_OUTPUT].value = (gateIn && columnActiveCellCount(seqPos % COLUMNS) > 0) ? 10.0f : 0.0f;
     };
+    
+    void resetSeq() {
+        seqPos = 0;
+    }
     
     void stepLife() {
         bool *newCells = new bool[CELLS];
