@@ -55,6 +55,32 @@ struct GameOfLifeSequencerModule : Module {
         clearCells();
     }
     
+    json_t *toJson() override {
+        json_t *rootJ = json_object();
+        
+        json_t *cellsJ = json_array();
+        for(int i = 0; i < CELLS; i++) {
+            json_t *cellJ = json_integer((int) cells[i]);
+            json_array_append_new(cellsJ, cellJ);
+        }
+        
+        json_object_set_new(rootJ, "cells", cellsJ);
+        
+        return rootJ;
+    }
+    
+    void fromJson(json_t *rootJ) override {
+        json_t *cellsJ = json_object_get(rootJ, "cells");
+        
+        if(cellsJ) {
+            for(int i=0; i < CELLS; i++) {
+                json_t *cellJ = json_array_get(cellsJ, i);
+                if(cellJ)
+                    cells[i] = json_integer_value(cellJ);
+            }
+        }
+    }
+    
     void step() override {
         bool gateIn = false;
         
