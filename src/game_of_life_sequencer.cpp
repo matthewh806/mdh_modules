@@ -26,6 +26,7 @@ struct GameOfLifeSequencerModule : Module {
     };
     enum OutputIds {
         GATE_OUTPUT,
+        VOCT_OUTPUT,
         NUM_OUTPUTS
     };
     enum LightIds {
@@ -113,8 +114,8 @@ struct GameOfLifeSequencerModule : Module {
             gateIn = clockTrigger.isHigh();
         }
         
-        // TODO: don't just base this on active cells in a column
         outputs[GATE_OUTPUT].value = (gateIn && columnActiveCellCount(seqPos % COLUMNS) > 0) ? 10.0f : 0.0f;
+        outputs[VOCT_OUTPUT].value = calculateVoltageForColumn(seqPos % COLUMNS);
     };
     
     void resetSeq() {
@@ -207,6 +208,36 @@ struct GameOfLifeSequencerModule : Module {
     bool isInRange(int x, int y) {
         return x >= 0 && x <= COLUMNS && y >= 0 && y <= ROWS;
     };
+    
+    float calculateVoltageForColumn(int columnIdx) {
+        /* TODO:
+         *  Voltage range should span an entire octave.
+         *
+         *  Therefore: consider up to 12 notes simultaneously
+         *  e.g. 1 column active: voltage 1*(1 / 12) = 0.0833
+            2 columns active: voltage = 2*(1/12) = 0.1667
+            etc
+         
+            I think this is how it should work...?
+         
+            Don't bother quantizing it or rx1elating it to a scale for now.
+            Leave that for other modules or later work.
+         
+            C2 = 0V
+            F2# = 0.5V (halfway)
+            C3 = 1V
+         
+            range 0 - +5V covers 5 ovtaves.
+         
+            Voltage ref:
+            http://www.bytenoise.co.uk/Appendix%3A_pitches
+         
+         Note: I didn't use 0.0833 because I already saw some rounding errors creeping in affecting the output note.
+         */
+        
+        int cellCount = columnActiveCellCount(columnIdx);
+        return (1/12.0f * cellCount) < 1 ? 1/12.0f * cellCount : 1;
+    }
     
     int columnActiveCellCount(int columnIdx) {
         int count = 0;
@@ -315,7 +346,9 @@ struct GameOfLifeSequencerWidget : ModuleWidget {
         setPanel(SVG::load(assetPlugin(plugin, "res/ConwaySeq.svg")));
         
         addInput(Port::create<PJ301MPort>(Vec(50, 10), Port::INPUT, module, GameOfLifeSequencerModule::EXTERNAL_CLOCK_INPUT));
-        addOutput(Port::create<PJ301MPort>(Vec(306, 10), Port::OUTPUT, module, GameOfLifeSequencerModule::GATE_OUTPUT));
+        
+        addOutput(Port::create<PJ301MPort>(Vec(326, 10), Port::OUTPUT, module, GameOfLifeSequencerModule::GATE_OUTPUT));
+        addOutput(Port::create<PJ301MPort>(Vec(326, 40), Port::OUTPUT, module, GameOfLifeSequencerModule::VOCT_OUTPUT));
         
         addParam(ParamWidget::create<LEDButton>(Vec(50, 320), module, GameOfLifeSequencerModule::CLEAR_PARAM, 0.0f, 1.0f, 0.0f));
         addParam(ParamWidget::create<LEDButton>(Vec(100, 320), module, GameOfLifeSequencerModule::RANDOMIZE_PARAM, 0.0f, 1.0f, 0.0f));
