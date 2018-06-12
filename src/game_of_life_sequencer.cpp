@@ -34,7 +34,8 @@ struct GameOfLifeSequencerModule : Module {
     };
     
     bool *cells = new bool[CELLS];
-    int seqPos = 0;
+    int seqPos = 0; // TODO: These ints can easily overflow
+    int lifeCounter = 0;
     
     SchmittTrigger clearTrigger, randomizeTrigger;
     SchmittTrigger clockTrigger;
@@ -105,7 +106,9 @@ struct GameOfLifeSequencerModule : Module {
 
             if(clockTrigger.process(inputs[EXTERNAL_CLOCK_INPUT].value)) {
                 if(params[STEP_LIFE_SWITCH_PARAM].value) {
-                    stepLife();
+                    if( ++lifeCounter % int(params[LIFE_SPEED_KNOB_PARAM].value) == 0) {
+                        stepLife();
+                    }
                 }
                 
                 seqPos = (seqPos + 1) % seqLen;
@@ -354,9 +357,7 @@ struct GameOfLifeSequencerWidget : ModuleWidget {
         addParam(ParamWidget::create<LEDButton>(Vec(100, 320), module, GameOfLifeSequencerModule::RANDOMIZE_PARAM, 0.0f, 1.0f, 0.0f));
         addParam(ParamWidget::create<CKSS>(Vec(150, 320), module, GameOfLifeSequencerModule::STEP_LIFE_SWITCH_PARAM, 0.0f, 1.0f, 0.0f));
         
-        // Life speed is some fraction of the clock speed. Default is 1.0, min is 0.1 (10%), max is 5.0 (500%).
-        addParam(ParamWidget::create<RoundBlackKnob>(Vec(200, 320), module, GameOfLifeSequencerModule::LIFE_SPEED_KNOB_PARAM, 0.1f, 5.0f, 1.0f));
-        
+        addParam(ParamWidget::create<RoundBlackSnapKnob>(Vec(200, 320), module, GameOfLifeSequencerModule::LIFE_SPEED_KNOB_PARAM, 1.0f, 8.0f, 1.0f));
         addParam(ParamWidget::create<RoundBlackKnob>(Vec(250, 320), module, GameOfLifeSequencerModule::SEQUENCE_LENGTH_PARAM, 1.0, COLUMNS, COLUMNS));
         
         {
