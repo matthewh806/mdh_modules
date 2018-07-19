@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3430AC2220B1B52D00B5D5D2 /* BpmDancer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3430AC2020B1B52D00B5D5D2 /* BpmDancer.cpp */; };
+		4F3EF94420FF8CE3000C105B /* Hyphae.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F3EF94220FF8CE3000C105B /* Hyphae.cpp */; };
 		4F7EA90C20BD319800A67207 /* game_of_life_sequencer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F7EA90A20BD319800A67207 /* game_of_life_sequencer.cpp */; };
 		4FC0F2CF20B6C5470006A919 /* mdh_components.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4FC0F2CD20B6C5470006A919 /* mdh_components.cpp */; };
 		4FE1094420AAE12F0051073A /* mdh_modules.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4FE1093820AAE0ED0051073A /* mdh_modules.cpp */; };
@@ -33,6 +34,7 @@
 		34563B5B20BB65B600622BAB /* NoteCalculator.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = NoteCalculator.svg; sourceTree = "<group>"; };
 		34563B5C20BB6C0400622BAB /* BpmDancer.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = BpmDancer.svg; sourceTree = "<group>"; };
 		4F3B400720B4436200CBAD5E /* mdh_modules.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = mdh_modules.hpp; sourceTree = "<group>"; };
+		4F3EF94220FF8CE3000C105B /* Hyphae.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Hyphae.cpp; sourceTree = "<group>"; };
 		4F5AF96E20AAC306005C059C /* xcode */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = xcode; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F7EA90A20BD319800A67207 /* game_of_life_sequencer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = game_of_life_sequencer.cpp; sourceTree = "<group>"; };
 		4F7EA90D20BD54EF00A67207 /* ConwaySeq.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = ConwaySeq.svg; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 				4FC0F2CD20B6C5470006A919 /* mdh_components.cpp */,
 				4FC0F2CE20B6C5470006A919 /* mdh_components.hpp */,
 				4F7EA90A20BD319800A67207 /* game_of_life_sequencer.cpp */,
+				4F3EF94220FF8CE3000C105B /* Hyphae.cpp */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -205,6 +208,7 @@
 				4FE1094620AAE1470051073A /* Makefile in Sources */,
 				4FE1094420AAE12F0051073A /* mdh_modules.cpp in Sources */,
 				4F7EA90C20BD319800A67207 /* game_of_life_sequencer.cpp in Sources */,
+				4F3EF94420FF8CE3000C105B /* Hyphae.cpp in Sources */,
 				4FC0F2CF20B6C5470006A919 /* mdh_components.cpp in Sources */,
 				3430AC2220B1B52D00B5D5D2 /* BpmDancer.cpp in Sources */,
 				4FE1094520AAE1310051073A /* NoteCalculator.cpp in Sources */,

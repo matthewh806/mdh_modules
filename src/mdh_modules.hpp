@@ -11,3 +11,4 @@ extern Plugin *plugin;
 extern Model *modelNoteCalculator;
 extern Model *modelBpmCalculator;
 extern Model *modelGameOfLifeSequencer;
+extern Model *modelHyphae;
