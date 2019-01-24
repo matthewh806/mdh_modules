@@ -1,7 +1,7 @@
 # If RACK_DIR is not defined when calling the Makefile, default to two directories above
-RACK_DIR ?= ../../Rack-SDK/
+RACK_DIR ?= ../..
 SLUG = mdh-modules
-VERSION = 0.6.0
+VERSION = 1.0.0
 
 # FLAGS will be passed to both the C and C++ compiler
 FLAGS +=-Idep/include

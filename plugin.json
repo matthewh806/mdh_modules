@@ -1,0 +1,17 @@
+{
+	"slug": "Mdh Modules",
+	"name": "Mdh Modules",
+	"author": "VCV",
+	"license": "CC0-1.0",
+	"authorEmail": "",
+	"authorUrl": "",
+	"sourceUrl": "",
+	"version": "1.0.0",
+	"modules": {
+		"BpmDancer": {
+			"name": "BpmDancer",
+			"description": "A simple sine oscillator for demonstrating the Rack API",
+			"tags": ["VCO"]
+		}
+	}
+}

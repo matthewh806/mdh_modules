@@ -1,4 +1,5 @@
 #include "mdh_modules.hpp"
+#include "componentlibrary.hpp"
 #include "mdh_components.hpp"
 #include <iostream>
 #include <array>
@@ -52,7 +53,7 @@ struct NoteDisplay : TransparentWidget {
     std::shared_ptr<Font> font;
     
     NoteDisplay() {
-        font = Font::load(assetPlugin(plugin, "res/fonts/Segment14.ttf"));
+        font = Font::load(asset::plugin(plugin, "res/fonts/Segment14.ttf"));
     };
     
     void draw(NVGcontext *vg) override {
@@ -75,12 +76,12 @@ struct NoteDisplay : TransparentWidget {
 
 struct NoteCalculatorWidget : ModuleWidget {
 	NoteCalculatorWidget(NoteCalculatorModule *module) : ModuleWidget(module) {
-		setPanel(SVG::load(assetPlugin(plugin, "res/NoteCalculator.svg")));
+		setPanel(SVG::load(asset::plugin(plugin, "res/NoteCalculator.svg")));
         
-		addChild(Widget::create<ScrewSilver>(Vec(RACK_GRID_WIDTH, 0)));
-		addChild(Widget::create<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-		addChild(Widget::create<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-		addChild(Widget::create<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+		addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, 0)));
+		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
+		addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
         
         {
             NoteDisplay *display = new NoteDisplay();
@@ -90,7 +91,7 @@ struct NoteCalculatorWidget : ModuleWidget {
             addChild(display);
         }
         
-        addInput(Port::create<PJ301MPort>(Vec(33, 280), Port::INPUT, module, NoteCalculatorModule::PITCH_INPUT));
+        addInput(createInput<PJ301MPort>(Vec(33, 280), module, NoteCalculatorModule::PITCH_INPUT));
 	}
 };
 
@@ -99,4 +100,4 @@ struct NoteCalculatorWidget : ModuleWidget {
 // author name for categorization per plugin, module slug (should never
 // change), human-readable module name, and any number of tags
 // (found in `include/tags.hpp`) separated by commas.
-Model *modelNoteCalculator = Model::create<NoteCalculatorModule, NoteCalculatorWidget>(MDH_MODULES, "Note Calculator", "Note Calculator", UTILITY_TAG);
+Model *modelNoteCalculator = createModel<NoteCalculatorModule, NoteCalculatorWidget>("Note Calculator");

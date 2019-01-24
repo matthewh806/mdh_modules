@@ -1,4 +1,5 @@
 #include "mdh_modules.hpp"
+#include "componentlibrary.hpp"
 #include "mdh_components.hpp"
 
 #include "dsp/digital.hpp"
@@ -37,8 +38,8 @@ struct GameOfLifeSequencerModule : Module {
     int seqPos = 0; // TODO: These ints can easily overflow
     int lifeCounter = 0;
     
-    SchmittTrigger clearTrigger, randomizeTrigger;
-    SchmittTrigger clockTrigger;
+    rack::dsp::SchmittTrigger clearTrigger, randomizeTrigger;
+    rack::dsp::SchmittTrigger clockTrigger;
     
     GameOfLifeSequencerModule() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {
         setRandomState();
@@ -57,7 +58,7 @@ struct GameOfLifeSequencerModule : Module {
         clearCells();
     }
     
-    json_t *toJson() override {
+    json_t *dataToJson() override {
         json_t *rootJ = json_object();
         
         json_t *cellsJ = json_array();
@@ -71,7 +72,7 @@ struct GameOfLifeSequencerModule : Module {
         return rootJ;
     }
     
-    void fromJson(json_t *rootJ) override {
+    void dataFromJson(json_t *rootJ) override {
         json_t *cellsJ = json_object_get(rootJ, "cells");
         
         if(cellsJ) {
@@ -253,7 +254,7 @@ struct GameOfLifeSequencerModule : Module {
     }
 };
 
-struct ConwaySeqDisplay : VirtualWidget {
+struct ConwaySeqDisplay : Widget {
     GameOfLifeSequencerModule * module;
     bool newState = false;
     float dragX = 0;
@@ -263,13 +264,13 @@ struct ConwaySeqDisplay : VirtualWidget {
     
     ConwaySeqDisplay() {};
     
-    void onMouseDown(EventMouseDown &e) override {
+    void onButton(const event::Button &e) override {
         if (e.button != 0) {
             return;
         }
         
-        e.consumed = true;
-        e.target = this;
+        // e.consume(true);
+        // e.target = this;
         
         initX = e.pos.x;
         initY = e.pos.y;
@@ -278,14 +279,14 @@ struct ConwaySeqDisplay : VirtualWidget {
         module->setCellStateByDisplayPos(e.pos.x, e.pos.y, newState);
     }
     
-    void onDragStart(EventDragStart &e) override {
-        dragX = gRackWidget->lastMousePos.x;
-        dragY = gRackWidget->lastMousePos.y;
+    void onDragStart(const event::DragStart &e) override {
+        dragX = app()->scene->rackWidget->mousePos.x;
+        dragY = app()->scene->rackWidget->mousePos.y;
     }
     
-    void onDragMove(EventDragMove &e) override {
-        float deltaX = gRackWidget->lastMousePos.x - dragX;
-        float deltaY = gRackWidget->lastMousePos.y - dragY;
+    void onDragMove(const event::DragMove &e) override {
+        float deltaX = app()->scene->rackWidget->mousePos.x - dragX;
+        float deltaY = app()->scene->rackWidget->mousePos.y - dragY;
         
         module->setCellStateByDisplayPos(initX + deltaX, initY + deltaY, newState);
     }
@@ -346,19 +347,19 @@ struct ConwaySeqDisplay : VirtualWidget {
 
 struct GameOfLifeSequencerWidget : ModuleWidget {
     GameOfLifeSequencerWidget(GameOfLifeSequencerModule *module): ModuleWidget(module) {
-        setPanel(SVG::load(assetPlugin(plugin, "res/ConwaySeq.svg")));
+        setPanel(SVG::load(asset::plugin(plugin, "res/ConwaySeq.svg")));
         
-        addInput(Port::create<PJ301MPort>(Vec(50, 10), Port::INPUT, module, GameOfLifeSequencerModule::EXTERNAL_CLOCK_INPUT));
+        addInput(createInput<PJ301MPort>(Vec(50, 10), module, GameOfLifeSequencerModule::EXTERNAL_CLOCK_INPUT));
         
-        addOutput(Port::create<PJ301MPort>(Vec(326, 10), Port::OUTPUT, module, GameOfLifeSequencerModule::GATE_OUTPUT));
-        addOutput(Port::create<PJ301MPort>(Vec(326, 40), Port::OUTPUT, module, GameOfLifeSequencerModule::VOCT_OUTPUT));
+        addOutput(createOutput<PJ301MPort>(Vec(326, 10), module, GameOfLifeSequencerModule::GATE_OUTPUT));
+        addOutput(createOutput<PJ301MPort>(Vec(326, 40), module, GameOfLifeSequencerModule::VOCT_OUTPUT));
         
-        addParam(ParamWidget::create<LEDButton>(Vec(50, 320), module, GameOfLifeSequencerModule::CLEAR_PARAM, 0.0f, 1.0f, 0.0f));
-        addParam(ParamWidget::create<LEDButton>(Vec(100, 320), module, GameOfLifeSequencerModule::RANDOMIZE_PARAM, 0.0f, 1.0f, 0.0f));
-        addParam(ParamWidget::create<CKSS>(Vec(150, 320), module, GameOfLifeSequencerModule::STEP_LIFE_SWITCH_PARAM, 0.0f, 1.0f, 0.0f));
+        addParam(createParam<LEDButton>(Vec(50, 320), module, GameOfLifeSequencerModule::CLEAR_PARAM));
+        addParam(createParam<LEDButton>(Vec(100, 320), module, GameOfLifeSequencerModule::RANDOMIZE_PARAM));
+        addParam(createParam<CKSS>(Vec(150, 320), module, GameOfLifeSequencerModule::STEP_LIFE_SWITCH_PARAM));
         
-        addParam(ParamWidget::create<RoundBlackSnapKnob>(Vec(200, 320), module, GameOfLifeSequencerModule::LIFE_SPEED_KNOB_PARAM, 1.0f, 8.0f, 1.0f));
-        addParam(ParamWidget::create<RoundBlackKnob>(Vec(250, 320), module, GameOfLifeSequencerModule::SEQUENCE_LENGTH_PARAM, 1.0, COLUMNS, COLUMNS));
+        addParam(createParam<RoundBlackSnapKnob>(Vec(200, 320), module, GameOfLifeSequencerModule::LIFE_SPEED_KNOB_PARAM));
+        addParam(createParam<RoundBlackKnob>(Vec(250, 320), module, GameOfLifeSequencerModule::SEQUENCE_LENGTH_PARAM));
         
         {
             ConwaySeqDisplay *display = new ConwaySeqDisplay();
@@ -371,5 +372,5 @@ struct GameOfLifeSequencerWidget : ModuleWidget {
     }
 };
 
-Model *modelGameOfLifeSequencer = Model::create<GameOfLifeSequencerModule, GameOfLifeSequencerWidget>(MDH_MODULES, "Game Of Life Sequencer", "Game Of Life Sequencer", UTILITY_TAG);
+Model *modelGameOfLifeSequencer = createModel<GameOfLifeSequencerModule, GameOfLifeSequencerWidget>("Game Of Life Sequencer");
 

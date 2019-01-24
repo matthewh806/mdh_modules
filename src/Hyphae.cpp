@@ -1,4 +1,5 @@
 #include "mdh_modules.hpp"
+#include "componentlibrary.hpp"
 #include "mdh_components.hpp"
 #include <dsp/digital.hpp>
 #include <iostream>
@@ -25,7 +26,7 @@ struct HyphaeModule : Module {
     
     HyphaeModule() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {}
     
-    rack::SchmittTrigger m_clockTrigger;
+    rack::dsp::SchmittTrigger m_clockTrigger;
     
     bool clockTick;
     bool gateIn;
@@ -69,12 +70,12 @@ struct HyphaeDrawingWidget : TransparentWidget {
 
 struct HyphaeWidget : ModuleWidget {
     HyphaeWidget(HyphaeModule *module) : ModuleWidget(module) {
-        setPanel(SVG::load(assetPlugin(plugin, "res/ConwaySeq.svg")));
+        setPanel(SVG::load(asset::plugin(plugin, "res/ConwaySeq.svg")));
         
-        addChild(Widget::create<ScrewSilver>(Vec(RACK_GRID_WIDTH, 0)));
-        addChild(Widget::create<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-        addChild(Widget::create<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-        addChild(Widget::create<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+        addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, 0)));
+        addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
+        addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+        addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
         
         {
             HyphaeDrawingWidget *display = new HyphaeDrawingWidget();
@@ -85,9 +86,9 @@ struct HyphaeWidget : ModuleWidget {
             addChild(display);
         }
 
-        addInput(Port::create<PJ301MPort>(Vec(33, 280), Port::INPUT, module, HyphaeModule::CLOCK_INPUT));
+        addInput(createInput<PJ301MPort>(Vec(33, 280), module, HyphaeModule::CLOCK_INPUT));
     };
 };
 
-Model *modelHyphae = Model::create<HyphaeModule, HyphaeWidget>(MDH_MODULES, "Hyphae", "Hyphae", UTILITY_TAG);
+Model *modelHyphae = createModel<HyphaeModule, HyphaeWidget>("Hyphae");
 
