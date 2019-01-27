@@ -8,7 +8,9 @@ FLAGS +=-Idep/include
 CFLAGS +=
 CXXFLAGS +=
 SOURCES += $(wildcard src/*.cpp)
-DISTRIBUTABLES += $(wildcard LICENSE*) res
+
+DISTRIBUTABLES += res
+DISTRIBUTABLES += $(wildcard LICENSE*)
 
 $(shell mkdir -p dep)
 DEP_LOCAL := dep

@@ -21,7 +21,9 @@ struct BpmDancerModule : Module {
         NUM_LIGHTS
     };
     
-    BpmDancerModule() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {}
+    BpmDancerModule() {
+        config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS); 
+    }
     
     rack::dsp::SchmittTrigger m_clockTrigger;
     void step() override;
@@ -50,7 +52,9 @@ struct BpmDancerAnimation : SVGAnimation {
 };
 
 struct BpmDancerWidget : ModuleWidget {
-    BpmDancerWidget(BpmDancerModule *module) : ModuleWidget(module) {
+    BpmDancerWidget(BpmDancerModule *module) {
+        setModule(module);
+
         setPanel(SVG::load(asset::plugin(plugin, "res/BpmDancer.svg")));
         
         addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, 0)));
@@ -68,4 +72,4 @@ struct BpmDancerWidget : ModuleWidget {
     };
 };
 
-Model *modelBpmCalculator = createModel<BpmDancerModule, BpmDancerWidget>("Bpm Dancer");
+Model *modelBpmCalculator = createModel<BpmDancerModule, BpmDancerWidget>("BpmDancer");

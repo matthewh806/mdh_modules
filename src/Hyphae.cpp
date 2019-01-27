@@ -24,7 +24,9 @@ struct HyphaeModule : Module {
         NUM_LIGHTS
     };
     
-    HyphaeModule() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {}
+    HyphaeModule() {
+        config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
+    }
     
     rack::dsp::SchmittTrigger m_clockTrigger;
     
@@ -69,7 +71,9 @@ struct HyphaeDrawingWidget : TransparentWidget {
 };
 
 struct HyphaeWidget : ModuleWidget {
-    HyphaeWidget(HyphaeModule *module) : ModuleWidget(module) {
+    HyphaeWidget(HyphaeModule *module) {
+        setModule(module);
+
         setPanel(SVG::load(asset::plugin(plugin, "res/ConwaySeq.svg")));
         
         addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, 0)));

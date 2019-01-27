@@ -29,7 +29,9 @@ struct NoteCalculatorModule : Module {
     
     const char *note_display = "";
 
-	NoteCalculatorModule() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {}
+	NoteCalculatorModule() {
+        config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
+    }
     
 	void step() override;
 };
@@ -75,7 +77,9 @@ struct NoteDisplay : TransparentWidget {
 };
 
 struct NoteCalculatorWidget : ModuleWidget {
-	NoteCalculatorWidget(NoteCalculatorModule *module) : ModuleWidget(module) {
+	NoteCalculatorWidget(NoteCalculatorModule *module) {
+        setModule(module);
+
 		setPanel(SVG::load(asset::plugin(plugin, "res/NoteCalculator.svg")));
         
 		addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, 0)));

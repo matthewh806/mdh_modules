@@ -41,7 +41,8 @@ struct GameOfLifeSequencerModule : Module {
     rack::dsp::SchmittTrigger clearTrigger, randomizeTrigger;
     rack::dsp::SchmittTrigger clockTrigger;
     
-    GameOfLifeSequencerModule() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {
+    GameOfLifeSequencerModule() {
+        config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
         setRandomState();
     }
     
@@ -346,7 +347,9 @@ struct ConwaySeqDisplay : Widget {
 };
 
 struct GameOfLifeSequencerWidget : ModuleWidget {
-    GameOfLifeSequencerWidget(GameOfLifeSequencerModule *module): ModuleWidget(module) {
+    GameOfLifeSequencerWidget(GameOfLifeSequencerModule *module) {
+        setModule(module);
+
         setPanel(SVG::load(asset::plugin(plugin, "res/ConwaySeq.svg")));
         
         addInput(createInput<PJ301MPort>(Vec(50, 10), module, GameOfLifeSequencerModule::EXTERNAL_CLOCK_INPUT));
