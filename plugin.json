@@ -12,6 +12,21 @@
 			"name": "BpmDancer",
 			"description": "A simple sine oscillator for demonstrating the Rack API",
 			"tags": ["VCO"]
+		},
+		"GameOfLifeSequencer": {
+			"name": "GameOfLifeSequencer",
+			"description": "A simple sine oscillator for demonstrating the Rack API",
+			"tags": ["VCO"]
+		},
+		"Hyphae": {
+			"name": "Hyphae",
+			"description": "A simple sine oscillator for demonstrating the Rack API",
+			"tags": ["VCO"]
+		},
+		"NoteCalculator": {
+			"name": "NoteCalculator",
+			"description": "A simple sine oscillator for demonstrating the Rack API",
+			"tags": ["VCO"]
 		}
 	}
 }

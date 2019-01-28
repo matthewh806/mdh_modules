@@ -31,9 +31,9 @@ void SVGAnimation::draw(NVGcontext *vg) {
     if(frames.size() == 0)
         return;
 
-    sw->setSVG(frames[*frame % frames.size()]);
-    dirty = true;
+    // sw->setSVG(frames[*frame % frames.size()]);
+    // dirty = true;
     
-    FramebufferWidget::draw(vg);
+    // FramebufferWidget::draw(vg);
 }
 

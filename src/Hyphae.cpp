@@ -48,6 +48,8 @@ struct HyphaeDrawingWidget : TransparentWidget {
     HyphaeDrawingWidget() {}
     
     void draw(NVGcontext *vg) override {
+        if(!module) { return; }
+
         if(module->gateIn) {
             nvgBeginPath(vg);
             nvgCircle(vg, box.size.x / 2, box.size.y / 2, 100);

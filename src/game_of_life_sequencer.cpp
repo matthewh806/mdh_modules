@@ -293,6 +293,8 @@ struct ConwaySeqDisplay : Widget {
     }
     
     void draw(NVGcontext *vg) override {
+        if(!module) { return; }
+
         // bg
         nvgFillColor(vg, nvgRGB(20, 30, 33));
         nvgBeginPath(vg);
@@ -375,5 +377,5 @@ struct GameOfLifeSequencerWidget : ModuleWidget {
     }
 };
 
-Model *modelGameOfLifeSequencer = createModel<GameOfLifeSequencerModule, GameOfLifeSequencerWidget>("Game Of Life Sequencer");
+Model *modelGameOfLifeSequencer = createModel<GameOfLifeSequencerModule, GameOfLifeSequencerWidget>("GameOfLifeSequencer");
 

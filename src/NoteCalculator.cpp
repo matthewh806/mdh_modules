@@ -59,6 +59,8 @@ struct NoteDisplay : TransparentWidget {
     };
     
     void draw(NVGcontext *vg) override {
+        if(!module) { return; }
+
         const char *note_display = module->note_display;
         
         if(!note_display)
@@ -87,13 +89,13 @@ struct NoteCalculatorWidget : ModuleWidget {
 		addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
         
-        {
-            NoteDisplay *display = new NoteDisplay();
-            display->module = module;
-            display->box.pos = Vec(30.0f, 120.0f);
-            display->box.size = Vec(40.0f, 40.0f);
-            addChild(display);
-        }
+        // {
+        //     NoteDisplay *display = new NoteDisplay();
+        //     display->module = module;
+        //     display->box.pos = Vec(30.0f, 120.0f);
+        //     display->box.size = Vec(40.0f, 40.0f);
+        //     addChild(display);
+        // }
         
         addInput(createInput<PJ301MPort>(Vec(33, 280), module, NoteCalculatorModule::PITCH_INPUT));
 	}
@@ -104,4 +106,4 @@ struct NoteCalculatorWidget : ModuleWidget {
 // author name for categorization per plugin, module slug (should never
 // change), human-readable module name, and any number of tags
 // (found in `include/tags.hpp`) separated by commas.
-Model *modelNoteCalculator = createModel<NoteCalculatorModule, NoteCalculatorWidget>("Note Calculator");
+Model *modelNoteCalculator = createModel<NoteCalculatorModule, NoteCalculatorWidget>("NoteCalculator");
