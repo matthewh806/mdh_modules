@@ -1,5 +1,5 @@
 #include "mdh_modules.hpp"
-#include "componentlibrary.hpp"
+#include "component.hpp"
 #include "mdh_components.hpp"
 
 #include "dsp/digital.hpp"
@@ -281,13 +281,13 @@ struct ConwaySeqDisplay : Widget {
     }
     
     void onDragStart(const event::DragStart &e) override {
-        dragX = app()->scene->rackWidget->mousePos.x;
-        dragY = app()->scene->rackWidget->mousePos.y;
+        dragX = APP->scene->rackWidget->mousePos.x;
+        dragY = APP->scene->rackWidget->mousePos.y;
     }
     
     void onDragMove(const event::DragMove &e) override {
-        float deltaX = app()->scene->rackWidget->mousePos.x - dragX;
-        float deltaY = app()->scene->rackWidget->mousePos.y - dragY;
+        float deltaX = APP->scene->rackWidget->mousePos.x - dragX;
+        float deltaY = APP->scene->rackWidget->mousePos.y - dragY;
         
         module->setCellStateByDisplayPos(initX + deltaX, initY + deltaY, newState);
     }
@@ -352,7 +352,7 @@ struct GameOfLifeSequencerWidget : ModuleWidget {
     GameOfLifeSequencerWidget(GameOfLifeSequencerModule *module) {
         setModule(module);
 
-        setPanel(SVG::load(asset::plugin(plugin, "res/ConwaySeq.svg")));
+        setPanel(SVG::load(asset::plugin(pluginInstance, "res/ConwaySeq.svg")));
         
         addInput(createInput<PJ301MPort>(Vec(50, 10), module, GameOfLifeSequencerModule::EXTERNAL_CLOCK_INPUT));
         

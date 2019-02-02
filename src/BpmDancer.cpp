@@ -1,5 +1,5 @@
 #include "mdh_modules.hpp"
-#include "componentlibrary.hpp"
+#include "component.hpp"
 #include "mdh_components.hpp"
 #include <dsp/digital.hpp>
 
@@ -43,7 +43,7 @@ void BpmDancerModule::step() {
 struct BpmDancerAnimation : SVGAnimation {
     BpmDancerAnimation() : SVGAnimation(Vec(0.33f, 0.33f)) {
         // TODO: Randomize initial animation character...
-        addFrame(SVG::load(asset::plugin(plugin, "res/jigglypuff.svg")));
+        addFrame(SVG::load(asset::plugin(pluginInstance, "res/jigglypuff.svg")));
         sw->wrap();
         
         tw->box.size = sw->box.size;
@@ -55,7 +55,7 @@ struct BpmDancerWidget : ModuleWidget {
     BpmDancerWidget(BpmDancerModule *module) {
         setModule(module);
 
-        setPanel(SVG::load(asset::plugin(plugin, "res/BpmDancer.svg")));
+        setPanel(SVG::load(asset::plugin(pluginInstance, "res/BpmDancer.svg")));
         
         addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, 0)));
         addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));

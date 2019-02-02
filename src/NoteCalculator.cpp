@@ -1,5 +1,5 @@
 #include "mdh_modules.hpp"
-#include "componentlibrary.hpp"
+#include "component.hpp"
 #include "mdh_components.hpp"
 #include <iostream>
 #include <array>
@@ -18,6 +18,7 @@ struct NoteCalculatorModule : Module {
 		NUM_INPUTS
 	};
 	enum OutputIds {
+        PITCH_OUTPUT,
 		NUM_OUTPUTS
 	};
 	enum LightIds {
@@ -42,6 +43,8 @@ void NoteCalculatorModule::step() {
          return;
     
     pitch = inputs[PITCH_INPUT].value;
+    outputs[PITCH_OUTPUT].setVoltage(pitch);
+
     float o = std::floor(pitch);
     int s = std::floor((pitch - o) * 12.f);
     
@@ -55,7 +58,7 @@ struct NoteDisplay : TransparentWidget {
     std::shared_ptr<Font> font;
     
     NoteDisplay() {
-        font = Font::load(asset::plugin(plugin, "res/fonts/Segment14.ttf"));
+        font = Font::load(asset::plugin(pluginInstance, "res/fonts/Segment14.ttf"));
     };
     
     void draw(NVGcontext *vg) override {
@@ -82,22 +85,23 @@ struct NoteCalculatorWidget : ModuleWidget {
 	NoteCalculatorWidget(NoteCalculatorModule *module) {
         setModule(module);
 
-		setPanel(SVG::load(asset::plugin(plugin, "res/NoteCalculator.svg")));
+		setPanel(SVG::load(asset::plugin(pluginInstance, "res/NotePanel.svg")));
         
 		addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, 0)));
 		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
 		addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
         
-        // {
-        //     NoteDisplay *display = new NoteDisplay();
-        //     display->module = module;
-        //     display->box.pos = Vec(30.0f, 120.0f);
-        //     display->box.size = Vec(40.0f, 40.0f);
-        //     addChild(display);
-        // }
+        {
+            NoteDisplay *display = new NoteDisplay();
+            display->module = module;
+            display->box.pos = Vec(30.0f, 120.0f);
+            display->box.size = Vec(40.0f, 40.0f);
+            addChild(display);
+        }
         
-        addInput(createInput<PJ301MPort>(Vec(33, 280), module, NoteCalculatorModule::PITCH_INPUT));
+        addInput(createInput<PJ301MPort>(Vec(50, 130), module, NoteCalculatorModule::PITCH_INPUT));
+        addOutput(createOutput<PJ301MPort>(Vec(90, 130), module, NoteCalculatorModule::PITCH_OUTPUT));
 	}
 };
 

@@ -1,5 +1,5 @@
 #include "mdh_modules.hpp"
-#include "componentlibrary.hpp"
+#include "component.hpp"
 #include "mdh_components.hpp"
 #include <dsp/digital.hpp>
 #include <iostream>
@@ -76,7 +76,7 @@ struct HyphaeWidget : ModuleWidget {
     HyphaeWidget(HyphaeModule *module) {
         setModule(module);
 
-        setPanel(SVG::load(asset::plugin(plugin, "res/ConwaySeq.svg")));
+        setPanel(SVG::load(asset::plugin(pluginInstance, "res/ConwaySeq.svg")));
         
         addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, 0)));
         addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));

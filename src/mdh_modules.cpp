@@ -1,9 +1,9 @@
 #include "mdh_modules.hpp"
 
-Plugin *plugin;
+Plugin *pluginInstance;
 
 void init(Plugin *p) {
-	plugin = p;
+	pluginInstance = p;
 
 	// Add all Models defined throughout the plugin
 	p->addModel(modelNoteCalculator);
