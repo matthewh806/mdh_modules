@@ -73,7 +73,7 @@ struct NoteDisplay : TransparentWidget {
         nvgFontFaceId(vg, font->handle);
         nvgTextLetterSpacing(vg, 2.0);
         
-        Vec textPos = Vec(4, 20);
+        Vec textPos = Vec(16, 20);
         NVGcolor textColor = nvgRGB(0xaf, 0xd2, 0x2c);
         nvgFillColor(vg, textColor);
         nvgText(vg, textPos.x, textPos.y, note_display, NULL);
@@ -84,7 +84,7 @@ struct NoteDisplay : TransparentWidget {
 struct NoteCalculatorWidget : ModuleWidget {
 	NoteCalculatorWidget(NoteCalculatorModule *module) {
         setModule(module);
-
+        
 		setPanel(SVG::load(asset::plugin(pluginInstance, "res/NotePanel.svg")));
         
 		addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, 0)));
@@ -95,7 +95,7 @@ struct NoteCalculatorWidget : ModuleWidget {
         {
             NoteDisplay *display = new NoteDisplay();
             display->module = module;
-            display->box.pos = Vec(30.0f, 120.0f);
+            display->box.pos = Vec(60.0f, 240.0f);
             display->box.size = Vec(40.0f, 40.0f);
             addChild(display);
         }
