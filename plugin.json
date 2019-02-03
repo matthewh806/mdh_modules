@@ -27,6 +27,11 @@
 			"name": "NoteCalculator",
 			"description": "A simple sine oscillator for demonstrating the Rack API",
 			"tags": ["VCO"]
+		},
+		"FrequencyScope": {
+			"name": "FrequencyScope",
+			"description": "A simple sine oscillator for demonstrating the Rack API",
+			"tags": ["VCO"]
 		}
 	}
 }

@@ -64,7 +64,7 @@ struct NoteDisplay : TransparentWidget {
     void draw(NVGcontext *vg) override {
         if(!module) { return; }
 
-        const char *note_display = module->note_display;
+        const char *note_display = module->note_display; 
         
         if(!note_display)
             note_display = "";
@@ -85,7 +85,8 @@ struct NoteCalculatorWidget : ModuleWidget {
 	NoteCalculatorWidget(NoteCalculatorModule *module) {
         setModule(module);
         
-		setPanel(SVG::load(asset::plugin(pluginInstance, "res/NotePanel.svg")));
+        std::shared_ptr<SVG> svg = SVG::load(asset::plugin(pluginInstance, "res/NotePanel.svg"));
+        setPanel(svg);
         
 		addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, 0)));
 		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
