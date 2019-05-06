@@ -1,5 +1,5 @@
 #include "mdh_modules.hpp"
-#include "component.hpp"
+#include "componentLibrary.hpp"
 #include "mdh_components.hpp"
 #include <iostream>
 #include <array>

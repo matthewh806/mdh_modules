@@ -1,5 +1,5 @@
 #include "mdh_modules.hpp"
-#include "component.hpp"
+#include "componentLibrary.hpp"
 #include "mdh_components.hpp"
 
 #include "dsp/digital.hpp"
@@ -281,13 +281,13 @@ struct ConwaySeqDisplay : Widget {
     }
     
     void onDragStart(const event::DragStart &e) override {
-        dragX = APP->scene->rackWidget->mousePos.x;
-        dragY = APP->scene->rackWidget->mousePos.y;
+        dragX = APP->scene->rack->mousePos.x;
+        dragY = APP->scene->rack->mousePos.y;
     }
     
     void onDragMove(const event::DragMove &e) override {
-        float deltaX = APP->scene->rackWidget->mousePos.x - dragX;
-        float deltaY = APP->scene->rackWidget->mousePos.y - dragY;
+        float deltaX = APP->scene->rack->mousePos.x - dragX;
+        float deltaY = APP->scene->rack->mousePos.y - dragY;
         
         module->setCellStateByDisplayPos(initX + deltaX, initY + deltaY, newState);
     }

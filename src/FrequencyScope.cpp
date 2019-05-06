@@ -1,5 +1,5 @@
 #include "mdh_modules.hpp"
-#include "component.hpp"
+#include "componentLibrary.hpp"
 #include "dsp/fft.hpp"
 
 static const int BUFFER_SIZE = 1024;
